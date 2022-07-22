@@ -1,0 +1,94 @@
+.page {
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 50px 20px;
+
+}
+
+.header>svg {
+    width: 180px;
+}
+
+.main {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: auto;
+    padding-bottom: 40px;
+    text-align: center;
+}
+
+.main h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 50px;
+    line-height: 1;
+    margin-bottom: 40px;
+}
+
+.main > div > p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    line-height: 1.5;
+    margin-bottom: 40px;
+}
+
+.form {
+    width: 100%;
+    max-width: 600px;
+    align-self: center;
+}
+
+.form h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.fields {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+@media screen and (min-width: 900px) {
+
+    .header {
+        padding: 50px 50px;
+    }
+
+    .main {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0 50px;
+        text-align: initial;
+        flex: 1;
+        align-items: center;
+        padding-bottom: 100px;
+    }
+
+    .main h1{
+        font-size: 64px;
+    }
+    .main > div > p {
+        margin-bottom: 0;
+    }
+
+
+    .main>div {
+        width: 45%;
+    }
+
+    .form {
+        width: 45%;
+    }
+
+}
