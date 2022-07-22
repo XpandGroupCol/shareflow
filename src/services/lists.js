@@ -11,7 +11,6 @@ export const getLists = async () => {
   try {
     const [locations, targets, sectors, ages] = await Promise.allSettled(lists)
 
-    console.log({ locations, targets, sectors, ages })
     return ({
       sectors: sectors?.value || [],
       targets: targets?.value || [],

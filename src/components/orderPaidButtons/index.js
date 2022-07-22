@@ -30,7 +30,6 @@ import { useMutation } from 'react-query'
 // })
 
 const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
-  console.log({ campaign })
   const { wompi, disabled } = useWompi()
 
   const notify = useNotify()
@@ -49,8 +48,6 @@ const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
   // const handleClose = () =>
   //   setShowProfileModal(false)
 
-  console.log({ user })
-
   const handlePay = () => {
     const {
       address,
@@ -67,7 +64,6 @@ const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
     }
 
     if (!address || !company || !companyEmail || !nit || !phone || !rut) {
-      console.log('llego')
       return setShowProfileModal(true)
     }
 
