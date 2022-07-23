@@ -54,6 +54,14 @@ export const verifySession = async () => {
   return getSession()
 }
 
+export const setLogin = (user) => {
+  const { role, name, avatar, email, refreshToken: token } = user
+  updateToken(user)
+  Storage.set(REACT_REFRESH_TOKEN, token)
+  Storage.setSecure(SESSION_DATA, { role, name, avatar, email })
+  refreshToken()
+}
+
 export const login = async (payload) => {
   try {
     const { data = {} } = await axiosFetcher('/auth',
@@ -62,12 +70,7 @@ export const login = async (payload) => {
     )
 
     const { data: user = {} } = data
-    const { role, name, avatar, email } = user
-
-    updateToken(user)
-    Storage.set(REACT_REFRESH_TOKEN, user.refreshToken)
-    Storage.setSecure(SESSION_DATA, { role, name, avatar, email })
-    refreshToken()
+    setLogin(user)
     return user
   } catch (err) {
     return Promise.reject(err)
@@ -101,6 +104,30 @@ export const recoveryPassword = async (payload) => {
 export const changePassword = async (payload) => {
   try {
     const { data } = await axiosFetcher('/auth/change-password',
+      { method: 'POST', data: payload },
+      false
+    )
+    return data
+  } catch (err) {
+    return Promise.reject(err)
+  }
+}
+
+export const getValidateInvitation = async (token) => {
+  try {
+    const { data } = await axiosFetcher(`/auth/validate-invitation/${token}`,
+      { method: 'GET' },
+      false
+    )
+    return data
+  } catch (err) {
+    return Promise.reject(err)
+  }
+}
+
+export const signUp = async (payload) => {
+  try {
+    const { data } = await axiosFetcher('/auth/sign-up',
       { method: 'POST', data: payload },
       false
     )

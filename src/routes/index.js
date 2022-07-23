@@ -20,6 +20,7 @@ import CampaignEditFormPage from 'pages/campaign-edit/form'
 import PublishersEditPage from 'pages/campaign-edit/publishers'
 import EditMediaPage from 'pages/campaign-edit/media'
 import CampaignOrderPage from 'pages/order'
+import SignUpPage from 'pages/sign-up'
 
 const Router = () => (
   <BrowserRouter>
@@ -45,6 +46,14 @@ const Router = () => (
         element={
           <PublicRoute>
             <RecoveryPasswordPage />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path='auth/sign-up/:token'
+        element={
+          <PublicRoute>
+            <SignUpPage />
           </PublicRoute>
         }
       />

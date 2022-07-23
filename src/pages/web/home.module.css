@@ -40,24 +40,7 @@
     margin-bottom: 40px;
 }
 
-.form {
-    width: 100%;
-    max-width: 600px;
-    align-self: center;
-}
 
-.form h2 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 28px;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.fields {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
 
 @media screen and (min-width: 900px) {
 
@@ -76,7 +59,7 @@
     }
 
     .main h1{
-        font-size: 64px;
+        font-size: 60px;
     }
     .main > div > p {
         margin-bottom: 0;
@@ -84,11 +67,7 @@
 
 
     .main>div {
-        width: 45%;
-    }
-
-    .form {
-        width: 45%;
+        width: 50%;
     }
 
 }

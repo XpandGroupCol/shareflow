@@ -1,6 +1,6 @@
 import { useNotify } from 'hooks/useNotify'
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
-import { getSession, login, verifySession } from 'services/auth'
+import { getSession, login, setLogin, verifySession } from 'services/auth'
 const SessionContext = createContext()
 
 const SessionProvider = ({ children }) => {
@@ -36,8 +36,14 @@ const SessionProvider = ({ children }) => {
     }
   }, [notify])
 
+  const setUser = useCallback((user) => {
+    console.log({ user })
+    setLogin(user)
+    setSession(prev => ({ ...prev, user }))
+  }, [])
+
   return (
-    <SessionContext.Provider value={{ ...session, signIn }}>
+    <SessionContext.Provider value={{ ...session, signIn, setUser }}>
       {children}
     </SessionContext.Provider>
   )
