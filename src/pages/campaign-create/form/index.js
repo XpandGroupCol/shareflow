@@ -8,6 +8,7 @@ import { useGetPublishersByTarget } from 'hooks/useGetPublishersByTarget'
 import { useNotify } from 'hooks/useNotify'
 import { useGlobalCampaigns } from 'providers/CampaignProvider'
 import { useNavigate } from 'react-router-dom'
+import { equalAges } from 'utils/normalizeData'
 
 const CampaignFormPage = () => {
   const navigate = useNavigate()
@@ -20,13 +21,19 @@ const CampaignFormPage = () => {
   const { data } = useGetLists()
 
   const onSubmit = ({ logo, ...values }) => {
-    const { amount, target } = globalCampaign
+    const { amount, target, sex, ages } = globalCampaign
 
-    if (amount === values.amount && target?.id === values.target?.id) {
+    const hasEqual = equalAges(ages, values.ages)
+
+    if (amount === values.amount && target?.id === values.target?.id && sex === values.sex && hasEqual) {
+      setCampaign(prev => ({
+        ...prev,
+        ...values
+      }))
       return navigate('/campaigns/create/publishers')
     }
 
-    getPublushers(values.target?.value, values.amount).then(({ listOffPublishers, percentage }) => {
+    getPublushers(values).then(({ listOffPublishers, percentage }) => {
       if (listOffPublishers?.length) {
         setCampaign(prev => ({
           ...prev,

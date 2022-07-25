@@ -9,14 +9,14 @@ const OrderTable = ({
       <Table sx={{ minWidth: 800 }} aria-label='simple table'>
         <TableHead>
           <TableRow>
-            <TableCell width='20%'>Medio</TableCell>
-            <TableCell width='20%'>Objetivo publicitario</TableCell>
-            <TableCell width='20%'>Formato</TableCell>
-            <TableCell width='8%' align='right'>Share</TableCell>
-            <TableCell width='8%' align='right'>C/U</TableCell>
-            <TableCell width='8%' align='right'>KPI</TableCell>
-            <TableCell width='8%' align='center'>Tipo de compra</TableCell>
-            <TableCell width='8%' align='right'>Total</TableCell>
+            <TableCell width='20%' sx={{ fontWeight: 'bold' }}>Medio</TableCell>
+            <TableCell width='20%' sx={{ fontWeight: 'bold' }}>Objetivo publicitario</TableCell>
+            <TableCell width='20%' sx={{ fontWeight: 'bold' }}>Formato</TableCell>
+            <TableCell width='8%' align='right' sx={{ fontWeight: 'bold' }}>Share</TableCell>
+            <TableCell width='8%' align='right' sx={{ fontWeight: 'bold' }}>C/U</TableCell>
+            <TableCell width='8%' align='right' sx={{ fontWeight: 'bold' }}>KPI</TableCell>
+            <TableCell width='8%' align='center' sx={{ fontWeight: 'bold' }}>Tipo de compra</TableCell>
+            <TableCell width='8%' align='right' sx={{ fontWeight: 'bold' }}>Total</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -38,12 +38,12 @@ const OrderTable = ({
 
           <TableRow>
             <TableCell colSpan={5} />
-            <TableCell colSpan={2} sx={{ fontWeight: 'bold' }}>Valor bruto:</TableCell>
+            <TableCell colSpan={2} sx={{ fontWeight: 'bold' }}>Valor bruto a invertir:</TableCell>
             <TableCell align='right' sx={{ fontWeight: 'bold' }}>${getFormatedNumber(summary?.grossValue)}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell colSpan={5} />
-            <TableCell colSpan={2} sx={{ fontWeight: 'bold' }}>Inpuesto:</TableCell>
+            <TableCell colSpan={2} sx={{ fontWeight: 'bold' }}>Tarifa de servicio:</TableCell>
 
             <TableCell align='right' sx={{ fontWeight: 'bold' }}>${getFormatedNumber(summary?.serviceFee)}</TableCell>
           </TableRow>

@@ -61,40 +61,24 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 10px;
-    border-bottom: 1px solid rgb(240, 242, 245);
-    padding-bottom: 10px;
 }
 
-.title {
-    font-size: 20px;
-    margin-top: 10px;
-    line-height: 1;
-}
 
-.subtitle {
-    font-size: 16px;
-}
 
 .date {
     display: flex;
     justify-content: center;
     gap: 5px;
-    margin-bottom: 10px;
 }
 
-.date>p {
-    font-size: 13px;
-}
+
 
 .row {
     display: flex;
     justify-content: space-between;
 }
 
-.row>p {
-    font-size: 14px;
-}
+
 
 .body {
     margin-bottom: 25px

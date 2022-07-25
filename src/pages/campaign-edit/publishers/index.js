@@ -33,7 +33,7 @@ const PublishersEditPage = () => {
 
     mutateAsync({ id: _id, payload }).then(({ data }) => {
       if (data) {
-        const hasAllFiles = data.publishers.some(({ imageUrl }) => !imageUrl)
+        const hasAllFiles = data.publishers.some(({ media }) => !media?.url)
         const path = hasAllFiles ? `/campaigns/${_id}/media` : '/campaigns'
         updateCampaign(prev => ({ ...prev, publishers: data?.publishers ?? [] }))
         return navigate(path)

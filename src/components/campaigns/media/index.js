@@ -25,7 +25,7 @@ const MediaForm = ({ campaign }) => {
   const { files = [], validator, removeFile } = useValidatorFile(copyValues(campaign?.publishers))
 
   const onSubmit = () => {
-    const emptyFiles = files.some(({ imageUrl }) => !imageUrl)
+    const emptyFiles = files.some(({ media }) => !media?.url)
     const publishers = files.map(({ loading, ...restOfFiles }) => ({ ...restOfFiles }))
 
     mutateAsync({ id: campaign?._id, payload: { publishers } }).then(({ data }) => {
@@ -64,7 +64,7 @@ const MediaForm = ({ campaign }) => {
 
       <section className={styles.uploadMedia}>
 
-        {files.map(({ label, _id, height, width, mimetype, imageUrl, loading = false, error = false }, index) => (
+        {files.map(({ label, _id, height, width, mimetype, media, loading = false, error = false }, index) => (
 
           <div key={_id} className={styles.mediaRow}>
             <div>
@@ -74,7 +74,7 @@ const MediaForm = ({ campaign }) => {
             <RowMedia
               id={_id}
               isLoading={loading}
-              url={imageUrl}
+              url={media?.url || ''}
               upload={handleValidator(index, { height, width, mimetype, label })}
               remove={handleRemoveFile(index)}
               error={error}

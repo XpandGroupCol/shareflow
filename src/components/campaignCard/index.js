@@ -1,6 +1,5 @@
 
-import classNames from 'classnames'
-import { Button } from '@mui/material'
+import { Button, Divider } from '@mui/material'
 import MenuItem from '@mui/material/MenuItem'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -18,9 +17,13 @@ import { deleteCampaign } from 'services/campaigns'
 import { useNotify } from 'hooks/useNotify'
 import { useQueryClient } from 'react-query'
 import { CAMPAINGS } from 'configs/queryKeys'
+import { TAG_COLOR } from 'configs/campaigns'
+import StatusTag from 'components/statusTag'
 
 const CampaignCard = (campaign) => {
   const { _id, logo, brand, name, status, startDate, endDate, summary, publishers } = campaign
+
+  const localState = TAG_COLOR[status] || {}
 
   const { mutateAsync, isLoading } = useMutate(deleteCampaign)
   const queryClient = useQueryClient()
@@ -41,7 +44,7 @@ const CampaignCard = (campaign) => {
     }
   }
 
-  const emptyFiles = publishers.some(({ imageUrl }) => !imageUrl)
+  const emptyFiles = publishers.some(({ media }) => !media?.url)
 
   return (
     <div className={styles.card} key={_id}>
@@ -71,30 +74,28 @@ const CampaignCard = (campaign) => {
             }
             </Menu>
           </div>)}
-        <Typography className={styles.title}>{brand}</Typography>
-        <Typography className={styles.subtitle}>{name}</Typography>
+        <Typography sx={{ fontSize: '20px', fontWeight: 'bold', margin: '15px 0 0', lineHeight: '1' }}>{brand}</Typography>
+        <Typography sx={{ fontSize: '14px', lineHeigth: '1', marginBottom: '10px' }}>{name}</Typography>
         <div className={styles.date}>
-          <Typography>{parseDate(startDate)}</Typography>
+          <Typography fontSize='13px'>{parseDate(startDate)}</Typography>
           <Typography> - </Typography>
-          <Typography>{parseDate(endDate)}</Typography>
+          <Typography fontSize='13px'>{parseDate(endDate)}</Typography>
         </div>
-        <Typography component='span' className={classNames(styles.status, { [styles[status]]: Boolean(styles[status]) })}>
-          {status}
-        </Typography>
-
+        {localState?.label ? <StatusTag label={localState?.label} color={localState?.color} /> : ''}
       </header>
+      <Divider sx={{ margin: '20px 0' }} />
       <div className={styles.body}>
         <div className={styles.row}>
-          <Typography color='black'>Impresiones</Typography>
-          <Typography color='black'>{getFormatedNumber(summary?.prints) || 0}</Typography>
+          <Typography fontSize='14px' fontWeight='bold'>Impresiones</Typography>
+          <Typography fontSize='13px'>{getFormatedNumber(summary?.prints) || 0}</Typography>
         </div>
         <div className={styles.row}>
-          <Typography color='black'>Reproducciones</Typography>
-          <Typography color='black'>{getFormatedNumber(summary?.reproductions) || 0}</Typography>
+          <Typography fontSize='14px' fontWeight='bold'>Reproducciones</Typography>
+          <Typography fontSize='13px'>{getFormatedNumber(summary?.reproductions) || 0}</Typography>
         </div>
         <div className={styles.row}>
-          <Typography color='black'>Clicks</Typography>
-          <Typography color='black'>{getFormatedNumber(summary?.clicks) || 0}</Typography>
+          <Typography fontSize='14px' fontWeight='bold'>Clicks</Typography>
+          <Typography fontSize='13px'>{getFormatedNumber(summary?.clicks) || 0}</Typography>
         </div>
 
       </div>

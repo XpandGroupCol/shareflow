@@ -22,11 +22,10 @@ export const getCampaignById = async (id) => {
   }
 }
 
-export const getPublishersByTarget = async (target, miniBudget) => {
+export const getPublishersByTarget = async ({ target, ages, amount, sex }) => {
   try {
-    const { data } = await axiosFetcher(`/campaigns/publishers-by-target?target=${target}&miniBudget=${miniBudget}`, {
-      method: 'GET'
-    })
+    const { data } = await axiosFetcher(`/campaigns/publishers-by-target?target=${target}&miniBudget=${amount}&sex=${sex}&ages=${ages}`,
+      { method: 'GET' })
     return data
   } catch (e) {
     return Promise.reject(e)
@@ -56,9 +55,9 @@ export const deleteCampaign = async (id) => {
   }
 }
 
-export const uploadCampaignfile = async (payload) => {
+export const uploadCampaignfile = async ({ payload, id }) => {
   try {
-    const { data } = await axiosFetcher('/campaigns/upload-file',
+    const { data } = await axiosFetcher(`/campaigns/upload-file/${id}`,
       { method: 'PUT', data: payload }
     )
     return data

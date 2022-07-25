@@ -70,11 +70,13 @@ export const clearPublishers = ({
   label,
   publisherCategory,
   share,
-  imageUrl,
+  media,
   value,
   width,
   mimetype,
-  height
+  height,
+  logo,
+  isVideo
 }) => ({
   formatId,
   publisherId,
@@ -85,12 +87,14 @@ export const clearPublishers = ({
   label,
   publisherCategory,
   share,
-  imageUrl,
+  media,
   value,
   width,
   mimetype,
   publisher,
-  height
+  height,
+  logo,
+  isVideo
 })
 export const clearCampaign = ({
   ages,
@@ -157,7 +161,9 @@ export const createPayload = (values) => {
         width,
         mimetype,
         height,
-        publisher
+        publisher,
+        isVideo,
+        logo
       }, i) => {
         payload.append(`${key}[${i}][formatId]`, formatId ?? '')
         payload.append(`${key}[${i}][publisherId]`, publisherId ?? '')
@@ -172,8 +178,11 @@ export const createPayload = (values) => {
         payload.append(`${key}[${i}][width]`, width ?? 0)
         payload.append(`${key}[${i}][height]`, height ?? '')
         payload.append(`${key}[${i}][mimetype]`, mimetype ?? '')
-        payload.append(`${key}[${i}][imageUrl]`, '')
+        payload.append(`${key}[${i}][media]`, '')
         payload.append(`${key}[${i}][publisher]`, publisher ?? '')
+        payload.append(`${key}[${i}][isVideo]`, isVideo ?? false)
+        payload.append(`${key}[${i}][logo][url]`, logo?.url ?? '')
+        payload.append(`${key}[${i}][logo][name]`, logo?.name ?? '')
       })
       return
     }

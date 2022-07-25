@@ -10,9 +10,13 @@ import Typography from 'components/typography'
 import { TAG_COLOR } from 'configs/campaigns'
 import { Link } from 'react-router-dom'
 import { parseDate } from 'utils/normalizeData'
+import styles from './details.module.css'
 
 const CampaignDetails = ({ campaing, updateCampaign }) => {
   const localState = TAG_COLOR[campaing?.status] || {}
+
+  console.log({ campaing })
+
   return (
     <>
       <section className='headerSection'>
@@ -28,31 +32,53 @@ const CampaignDetails = ({ campaing, updateCampaign }) => {
         borderRadius: '8px'
       }}
       >
+        <section className={styles.header}>
+          <div>
+            <Box sx={{ display: 'flex', gap: '10px' }}>
+              <Typography fontSize='16px' fontWeight='bold'>Numero de orden:</Typography>
+              <Typography>{campaing?.orderNumber?.toString()?.padStart(7, '0') || ''}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', gap: '10px' }}>
+              <Typography fontSize='16px' fontWeight='bold'>Campaña:</Typography>
+              <Typography>{campaing?.name}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', gap: '10px' }}>
+              <Typography fontSize='16px' fontWeight='bold'>Marca:</Typography>
+              <Typography>{campaing?.brand}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', gap: '10px' }}>
+              <Typography fontSize='16px' fontWeight='bold'>Fechas</Typography>
+              <Typography>{parseDate(campaing?.startDate)} - {parseDate(campaing?.endDate)}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', gap: '10px' }}>
+              <Typography fontSize='16px' fontWeight='bold'>Estado:</Typography>
+              {localState?.label ? <StatusTag label={localState?.label} color={localState?.color} /> : ''}
+            </Box>
+            <Box sx={{ display: 'flex', gap: '10px' }}>
+              <Typography fontSize='16px' fontWeight='bold'>Impresiones:</Typography>
+              <Typography>{localState?.summary?.reproductions}</Typography>
+              {localState?.label ? <StatusTag label={localState?.summary?.prints} color={localState?.color} /> : ''}
+            </Box>
+            <Box sx={{ display: 'flex', gap: '10px' }}>
+              <Typography fontSize='16px' fontWeight='bold'>Reproducciones:</Typography>
+              <Typography>{localState?.summary?.reproductions}</Typography>
 
-        <Box sx={{ display: 'flex', gap: '10px' }}>
-          <Typography fontSize='16px' fontWeight='bold'>Campaña:</Typography>
-          <Typography>{campaing?.name}</Typography>
-        </Box>
-        <Box sx={{ display: 'flex', gap: '10px' }}>
-          <Typography fontSize='16px' fontWeight='bold'>Marca:</Typography>
-          <Typography>{campaing?.brand}</Typography>
-        </Box>
-        <Box sx={{ display: 'flex', gap: '10px' }}>
-          <Typography fontSize='16px' fontWeight='bold'>Fechas</Typography>
-          <Typography>{parseDate(campaing?.startDate)} - {parseDate(campaing?.endDate)}</Typography>
-        </Box>
-        <Box sx={{ display: 'flex', gap: '10px' }}>
-          <Typography fontSize='16px' fontWeight='bold'>Estado:</Typography>
-          {localState?.label ? <StatusTag label={localState?.label} color={localState?.color} /> : ''}
-        </Box>
-        <Box>
-          <Avatar sx={{ width: 80, height: 80 }} src={campaing?.logo?.url || ''} label={campaing?.brand} />
-        </Box>
+            </Box>
+            <Box sx={{ display: 'flex', gap: '10px' }}>
+              <Typography fontSize='16px' fontWeight='bold'>Clicks:</Typography>
+              <Typography>{campaing?.brand}</Typography>
+
+            </Box>
+          </div>
+          <Box>
+            <Avatar sx={{ width: 80, height: 80 }} src={campaing?.logo?.url || ''} label={campaing?.brand} />
+          </Box>
+        </section>
         <Divider sx={{ margin: '20px 0' }} />
         <Typography sx={{ fontWeight: 'bold', fontSize: '20px' }}>Segmentación de la campaña</Typography>
         <OrderTable
           data={campaing?.publishers || []}
-          target={campaing?.target?.name}
+          target={campaing?.target?.label}
           summary={campaing?.summary || {}}
         />
         <Box sx={{ margin: '30px 0' }}>

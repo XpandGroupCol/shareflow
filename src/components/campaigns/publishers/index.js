@@ -175,7 +175,7 @@ const PublisherForm = ({ initValues, onBack, onSubmit, href, loading }) => {
               ))}
               <Divider sx={{ width: '100%', marginBottom: '20px' }} />
               <div className={styles.buttonContainer}>
-                <Button size='large' disabled={disabledButton} variant='contained' onClick={handleSubmit(onSubmit)} loading={loading}>Guardar campaña</Button>
+                <Button size='large' disabled={disabledButton} variant='contained' onClick={handleSubmit(onSubmit)} loading={loading}>Guardar y continuar</Button>
               </div>
             </form>
           </div>

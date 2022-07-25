@@ -27,7 +27,7 @@ const CampaignEditFormPage = () => {
     try {
       const payload = new window.FormData()
       payload.append('file', file)
-      const { data } = await changeLogo(payload)
+      const { data } = await changeLogo({ payload, id: globalCampaign?._id })
       if (!data) return notify.error('ups, algo salio mal por favor intente nuevamente')
       setLogo(data)
       notify.success('La imagen se ha cambiado correctamente')
@@ -36,9 +36,16 @@ const CampaignEditFormPage = () => {
     }
   }
 
-  const onDelete = () => {
-    // aqui se debe llamar al back
-    setLogo({ url: '', name: '' })
+  const onDelete = async () => {
+    try {
+      const payload = { name: globalCampaign?.logo?.name || '' }
+      const { data } = await changeLogo({ payload, id: globalCampaign?._id })
+      if (!data) return notify.error('ups, algo salio mal por favor intente nuevamente')
+      setLogo({ url: '', name: '' })
+      notify.success('La imagen se ha cambiado correctamente')
+    } catch (e) {
+      notify.error('ups, algo salio mal por favor intente nuevamente')
+    }
   }
 
   const onSubmit = ({ logo, ...values }) => {
@@ -50,7 +57,7 @@ const CampaignEditFormPage = () => {
       return navigate(path)
     }
 
-    getPublushers(values.target?.value, values.amount).then(({ listOffPublishers }) => {
+    getPublushers(values).then(({ listOffPublishers }) => {
       let { rows, publishers } = globalCampaign
       let clearPublishers = false
 

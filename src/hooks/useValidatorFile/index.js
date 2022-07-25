@@ -2,6 +2,8 @@ import { useNotify } from 'hooks/useNotify'
 import { useCallback, useState } from 'react'
 import { validatorFile } from 'services/campaigns'
 
+const emptyMedia = { name: '', url: '' }
+
 const useValidatorFile = (initValues = []) => {
   const [files, setFiles] = useState(() => [...initValues])
   const notify = useNotify()
@@ -14,7 +16,7 @@ const useValidatorFile = (initValues = []) => {
 
         if (currentFile) {
           currentFile.loading = true
-          currentFile.imageUrl = ''
+          currentFile.media = emptyMedia
         }
         return files
       })
@@ -25,7 +27,7 @@ const useValidatorFile = (initValues = []) => {
         const currentFile = files[index]
         if (currentFile) {
           currentFile.loading = false
-          currentFile.imageUrl = file?.url || ''
+          currentFile.media = { name: '', url: file?.url }
         }
         return files
       })
@@ -39,7 +41,7 @@ const useValidatorFile = (initValues = []) => {
         const currentFile = files[index]
         if (currentFile) {
           currentFile.loading = false
-          currentFile.imageUrl = ''
+          currentFile.media = emptyMedia
         }
         return files
       })
@@ -56,7 +58,7 @@ const useValidatorFile = (initValues = []) => {
       const currentFile = files[index]
       if (currentFile) {
         currentFile.loading = false
-        currentFile.imageUrl = ''
+        currentFile.media = emptyMedia
       }
       return files
     })

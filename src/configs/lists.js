@@ -53,6 +53,9 @@ export const CAMAPAING_STATUS = [{
   value: 'draft',
   label: 'Borrador'
 }, {
+  value: 'paid',
+  label: 'Pagada'
+}, {
   value: 'pending',
   label: 'Pendiente'
 }, {
@@ -65,4 +68,5 @@ export const CAMAPAING_STATUS = [{
 }, {
   value: 'completed',
   label: 'Completada'
-}]
+}
+]
