@@ -119,7 +119,7 @@ export default function Layout ({ children }) {
             </MenuItem>
             <Divider />
             <Link to='/profile'>
-              <MenuItem component='a' onClick={handleClose}>
+              <MenuItem component='span' onClick={handleClose}>
                 <PersonIcon fontSize='small' sx={{ marginRight: '10px' }} />
                 Perfil
               </MenuItem>

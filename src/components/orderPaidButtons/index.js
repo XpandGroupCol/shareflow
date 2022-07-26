@@ -10,6 +10,9 @@ import ExitPaidModal from 'components/exitPaidModal'
 import { Link } from 'react-router-dom'
 import { useNotify } from 'hooks/useNotify'
 import { useMutation } from 'react-query'
+import { Box } from '@mui/material'
+import PaymentIcon from '@mui/icons-material/Payment'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 // const getUserInitValues = ({
 //   address,
@@ -88,7 +91,7 @@ const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
       }
 
       if (transaction.status === 'APPROVED') {
-        getCampaignById(campaign?.id).then(({ data }) => {
+        getCampaignById(campaign?._id).then(({ data }) => {
           setCampaignState(data)
           setExitPaid(true)
         }).catch(() => {
@@ -108,22 +111,24 @@ const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
     })
   }
   return (
-    <>
+    <Box sx={{ display: 'flex', gap: '15px', justifyContent: 'center' }}>
       <Link to='/campaigns'>
         <Button variant='outlined' color='primary'>
+          <ArrowBackIcon sx={{ marginRight: '10px' }} />
           Salir
         </Button>
       </Link>
-      <Button disabled={leavePage} onClick={handleOpenModal} variant='outlined' color='secondary'>
+      <Button disabled={leavePage} onClick={handleOpenModal} variant='contained' color='secondary'>
         Cancelar orden
       </Button>
-      <Button onClick={handlePay} disabled={disabled || leavePage}>
+      <Button onClick={handlePay} disabled={disabled || leavePage} variant='contained'>
+        <PaymentIcon sx={{ marginRight: '10px' }} />
         Pago con wompi
       </Button>
       {/* <UpdateCompanyProfileModal showButton={() => setShowLeavePage(true)} open={showProfileModal} onClose={handleClose} initValues={getUserInitValues(user)} /> */}
       <ConfirmCancelCampaign open={cancelModal} onClose={handleCLoseModal} onSubmit={handleCancelOrder('cancel')} loading={isLoading} />
       <ExitPaidModal open={exitPaid} onClose={hanldeCloseSetExitPaid} />
-    </>
+    </Box>
   )
 }
 

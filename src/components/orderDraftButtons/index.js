@@ -8,6 +8,8 @@ import { useMutation } from 'react-query'
 import { Link } from 'react-router-dom'
 import { updateCampaign } from 'services/campaigns'
 import styles from './orderDraftButtons.module.css'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+
 const OrderDraftButtons = ({ campaign, setCampaignState }) => {
   const notify = useNotify()
   const [termsAndConditions, setTermAndConditions] = useState(false)
@@ -48,6 +50,7 @@ const OrderDraftButtons = ({ campaign, setCampaignState }) => {
         {campaign.status === 'cancel' && (
           <Link to='/campaigns'>
             <Button variant='outlined' color='primary'>
+              <ArrowBackIcon sx={{ marginRight: '10px' }} />
               Salir
             </Button>
           </Link>)}

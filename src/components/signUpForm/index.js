@@ -31,7 +31,6 @@ const SignUpForm = ({ user }) => {
       if (!data) return notify.error(GLOBAL_ERROR)
       setUser(data)
     }).catch((e) => {
-      console.log(e)
       notify.error(GLOBAL_ERROR)
     })
   }

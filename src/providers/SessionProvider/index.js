@@ -37,7 +37,6 @@ const SessionProvider = ({ children }) => {
   }, [notify])
 
   const setUser = useCallback((user) => {
-    console.log({ user })
     setLogin(user)
     setSession(prev => ({ ...prev, user }))
   }, [])

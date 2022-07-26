@@ -29,7 +29,6 @@ const WelcomeForm = () => {
       reset()
       notify.success('El registo ha sido exitoso. Gracias por confiar ser parte de Shareflow')
     } catch ({ response }) {
-      console.log()
       notify.error(response?.data?.message || GLOBAL_ERROR)
     }
   }

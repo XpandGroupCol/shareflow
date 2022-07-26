@@ -9,13 +9,12 @@ import StatusTag from 'components/statusTag'
 import Typography from 'components/typography'
 import { TAG_COLOR } from 'configs/campaigns'
 import { Link } from 'react-router-dom'
-import { parseDate } from 'utils/normalizeData'
+import { getFormatedNumber, parseDate } from 'utils/normalizeData'
 import styles from './details.module.css'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 const CampaignDetails = ({ campaing, updateCampaign }) => {
   const localState = TAG_COLOR[campaing?.status] || {}
-
-  console.log({ campaing })
 
   return (
     <>
@@ -35,38 +34,37 @@ const CampaignDetails = ({ campaing, updateCampaign }) => {
         <section className={styles.header}>
           <div>
             <Box sx={{ display: 'flex', gap: '10px' }}>
-              <Typography fontSize='16px' fontWeight='bold'>Numero de orden:</Typography>
+              <Typography fontSize='16px' fontWeight='bold'>Número de orden:</Typography>
               <Typography>{campaing?.orderNumber?.toString()?.padStart(7, '0') || ''}</Typography>
             </Box>
             <Box sx={{ display: 'flex', gap: '10px' }}>
               <Typography fontSize='16px' fontWeight='bold'>Campaña:</Typography>
               <Typography>{campaing?.name}</Typography>
             </Box>
-            <Box sx={{ display: 'flex', gap: '10px' }}>
+            <Box sx={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
               <Typography fontSize='16px' fontWeight='bold'>Marca:</Typography>
               <Typography>{campaing?.brand}</Typography>
             </Box>
             <Box sx={{ display: 'flex', gap: '10px' }}>
-              <Typography fontSize='16px' fontWeight='bold'>Fechas</Typography>
+              <Typography fontSize='16px' fontWeight='bold'>Fechas:</Typography>
               <Typography>{parseDate(campaing?.startDate)} - {parseDate(campaing?.endDate)}</Typography>
             </Box>
-            <Box sx={{ display: 'flex', gap: '10px' }}>
+            <Box sx={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
               <Typography fontSize='16px' fontWeight='bold'>Estado:</Typography>
               {localState?.label ? <StatusTag label={localState?.label} color={localState?.color} /> : ''}
             </Box>
             <Box sx={{ display: 'flex', gap: '10px' }}>
               <Typography fontSize='16px' fontWeight='bold'>Impresiones:</Typography>
-              <Typography>{localState?.summary?.reproductions}</Typography>
-              {localState?.label ? <StatusTag label={localState?.summary?.prints} color={localState?.color} /> : ''}
+              <Typography>{getFormatedNumber(campaing?.summary?.prints)}</Typography>
             </Box>
             <Box sx={{ display: 'flex', gap: '10px' }}>
               <Typography fontSize='16px' fontWeight='bold'>Reproducciones:</Typography>
-              <Typography>{localState?.summary?.reproductions}</Typography>
+              <Typography>{campaing?.summary?.reproductions}</Typography>
 
             </Box>
             <Box sx={{ display: 'flex', gap: '10px' }}>
               <Typography fontSize='16px' fontWeight='bold'>Clicks:</Typography>
-              <Typography>{campaing?.brand}</Typography>
+              <Typography>{campaing?.summary?.clicks}</Typography>
 
             </Box>
           </div>
@@ -89,12 +87,8 @@ const CampaignDetails = ({ campaing, updateCampaign }) => {
           <Box sx={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
             <Link to='/campaigns'>
               <Button component='span' variant='outlined'>
+                <ArrowBackIcon sx={{ marginRight: '10px' }} />
                 Salir
-              </Button>
-            </Link>
-            <Link to={`/campaigns/${campaing?._id}/edit`}>
-              <Button component='span' variant='contained'>
-                Editar Campaña
               </Button>
             </Link>
           </Box>)}
