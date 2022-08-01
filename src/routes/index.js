@@ -21,6 +21,7 @@ import PublishersEditPage from 'pages/campaign-edit/publishers'
 import EditMediaPage from 'pages/campaign-edit/media'
 import CampaignOrderPage from 'pages/order'
 import SignUpPage from 'pages/sign-up'
+import TermsAndConditions from 'pages/termsAndConditions'
 
 const Router = () => (
   <BrowserRouter>
@@ -110,6 +111,7 @@ const Router = () => (
         <Route path='publishers' element={<PublishersEditPage />} />
         <Route path='media' element={<EditMediaPage />} />
         <Route path='order' element={<CampaignOrderPage />} />
+
       </Route>
 
       <Route
@@ -120,6 +122,7 @@ const Router = () => (
           </PrivateRoute>
         }
       />
+      <Route path='terms-and-conditions' element={<TermsAndConditions />} />
       <Route
         path='*'
         element={<NotFoundPage />}

@@ -1,6 +1,6 @@
 
 import Button from 'components/button'
-// import UpdateCompanyProfileModal from 'components/updateCompanyProfileModal'
+import UpdateCompanyProfileModal from 'components/updateCompanyProfileModal'
 import ConfirmCancelCampaign from 'components/confirmCancelCampaign'
 import useWompi from 'hooks/useWompi'
 
@@ -10,27 +10,10 @@ import ExitPaidModal from 'components/exitPaidModal'
 import { Link } from 'react-router-dom'
 import { useNotify } from 'hooks/useNotify'
 import { useMutation } from 'react-query'
-import { Box } from '@mui/material'
 import PaymentIcon from '@mui/icons-material/Payment'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-
-// const getUserInitValues = ({
-//   address,
-//   company,
-//   companyEmail,
-//   nit,
-//   phone,
-//   checkRut,
-//   rut
-// }) => ({
-//   address,
-//   company,
-//   companyEmail,
-//   nit,
-//   phone,
-//   checkRut,
-//   rut: rut ? { url: rut } : rut
-// })
+import styles from './orderPaidButtons.module.css'
+import { getUserInitValues } from 'utils/normalizeData'
 
 const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
   const { wompi, disabled } = useWompi()
@@ -39,8 +22,8 @@ const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
   const { user } = campaign
   const { isLoading, mutateAsync } = useMutation(updateCampaign)
 
-  const [leavePage] = useState(false)
-  const [, setShowProfileModal] = useState(false)
+  const [leavePage, setShowLeavePage] = useState(false)
+  const [showProfileModal, setShowProfileModal] = useState(false)
   const [cancelModal, setCancelModal] = useState(false)
   const [exitPaid, setExitPaid] = useState(false)
 
@@ -48,8 +31,8 @@ const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
   const handleCLoseModal = () => setCancelModal(false)
   const handleOpenModal = () => setCancelModal(true)
 
-  // const handleClose = () =>
-  //   setShowProfileModal(false)
+  const handleClose = () =>
+    setShowProfileModal(false)
 
   const handlePay = () => {
     const {
@@ -62,11 +45,11 @@ const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
       rut
     } = user
 
-    if (address && company && companyEmail && nit && phone && rut && !checkRut) {
+    if (address && company && companyEmail && nit && phone && rut && checkRut) {
       return notify.info('Nuestro eqipo se encuentra validando la información de su empresa, esto puede tarde un par de horas.')
     }
 
-    if (!address || !company || !companyEmail || !nit || !phone || !rut) {
+    if (!address || !company || !companyEmail || !nit || !phone || !rut?.url || !checkRut) {
       return setShowProfileModal(true)
     }
 
@@ -111,9 +94,9 @@ const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
     })
   }
   return (
-    <Box sx={{ display: 'flex', gap: '15px', justifyContent: 'center' }}>
+    <div className={styles.action}>
       <Link to='/campaigns'>
-        <Button variant='outlined' color='primary'>
+        <Button component='span' variant='outlined' color='primary'>
           <ArrowBackIcon sx={{ marginRight: '10px' }} />
           Salir
         </Button>
@@ -125,10 +108,14 @@ const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
         <PaymentIcon sx={{ marginRight: '10px' }} />
         Pago con wompi
       </Button>
-      {/* <UpdateCompanyProfileModal showButton={() => setShowLeavePage(true)} open={showProfileModal} onClose={handleClose} initValues={getUserInitValues(user)} /> */}
+      <UpdateCompanyProfileModal
+        showButton={() => setShowLeavePage(true)}
+        open={showProfileModal} onClose={handleClose}
+        initValues={getUserInitValues(user)}
+      />
       <ConfirmCancelCampaign open={cancelModal} onClose={handleCLoseModal} onSubmit={handleCancelOrder('cancel')} loading={isLoading} />
       <ExitPaidModal open={exitPaid} onClose={hanldeCloseSetExitPaid} />
-    </Box>
+    </div>
   )
 }
 

@@ -25,3 +25,23 @@ export const equalAges = (arr1 = [], arr2 = []) => {
   const _arr2 = arr2.map(({ value }) => value)
   return arr1.every(({ value }) => _arr2.includes(value))
 }
+
+export const getUserInitValues = ({
+  address,
+  company,
+  companyEmail,
+  nit,
+  phone,
+  checkRut,
+  rut,
+  _id
+}) => ({
+  address,
+  company,
+  companyEmail,
+  nit,
+  phone,
+  checkRut,
+  rut,
+  _id
+})

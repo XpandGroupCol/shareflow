@@ -13,7 +13,7 @@ import { useForgotPassword } from 'hooks/useForgotPassword'
 import { defaultValues, schema } from './schema'
 
 const ForgotPasswordPage = () => {
-  const { formState: { errors }, handleSubmit, control, reset } = useForm({
+  const { formState: { errors }, handleSubmit, control } = useForm({
     defaultValues: { ...defaultValues },
     resolver: yupResolver(schema)
   })
@@ -21,7 +21,7 @@ const ForgotPasswordPage = () => {
   const {
     sendEmail,
     isLoading
-  } = useForgotPassword(reset)
+  } = useForgotPassword()
 
   return (
     <AuthLayout text='Ingrese su correo electrónico'>

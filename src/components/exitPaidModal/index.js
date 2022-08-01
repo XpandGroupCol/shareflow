@@ -1,40 +1,34 @@
-import { Divider } from '@mui/material'
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Divider } from '@mui/material'
 import Button from 'components/button'
-import Modal from 'components/modal'
 import Typography from 'components/typography'
 
-import styles from './changePasswordModal.module.css'
 import PriceCheckIcon from '@mui/icons-material/PriceCheck'
-import { Link } from 'react-router-dom'
+
 const ExitPaidModal = ({ open, onClose }) => {
   return (
-    <Modal
+    <Dialog
+      fullWidth
+      maxWidth='xs'
       open={open}
       onClose={onClose}
+      sx={{
+        '&.MuiPaper-root': {
+          backgroundColor: 'red'
+        }
+      }}
     >
-
-      <div className={styles.content}>
-        <Typography sx={{
-          fontSize: '20px',
-          fontWeight: 'bold',
-          textTransform: 'uppercase',
-          textAlign: 'center'
-        }}
-        >Pago exitoso
-        </Typography>
-        <Divider sx={{ margin: '10px 0 20px' }} />
-        <div className={styles.fields}>
-          <PriceCheckIcon color='success' />
-          <Typography fontSize='20px' textAlign='center'>Felicitaciones, tu <Typography component='strong' fontWeight='bold' fontSize='inherit'>Flow de medios</Typography> ha sido generado y se encuentra en proceso de implementación, un ejecutivo de medios te contactará en el menor tiempo posible.</Typography>
-        </div>
-        <div className={styles.buttons}>
-          <Button type='button' onClick={onClose} variant='outlined' color='secondary'>Cerrar</Button>
-          <Link to='/campaigns'>
-            <Button component='a' variant='outlined'>Ver camapañas</Button>
-          </Link>
-        </div>
-      </div>
-    </Modal>
+      <DialogTitle fontWeight='bold'>Pago exitoso</DialogTitle>
+      <Divider />
+      <DialogContent sx={{ marginBottom: '30px' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <PriceCheckIcon sx={{ fontSize: '80px', textAlign: 'center', marginBottom: '10px' }} color='success' />
+        </Box>
+        <Typography fontSize='18px' textAlign='center'>Felicitaciones, tu <Typography component='strong' fontWeight='bold' fontSize='inherit'>Flow de medios</Typography> ha sido generado y se encuentra en proceso de implementación, un ejecutivo de medios te contactará en el menor tiempo posible.</Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button type='button' onClick={onClose} variant='outlined' color='secondary'>Cerrar</Button>
+      </DialogActions>
+    </Dialog>
   )
 }
 

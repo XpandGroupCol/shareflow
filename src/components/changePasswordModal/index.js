@@ -16,6 +16,7 @@ import { defaultValues, schema } from './schema'
 import { changeProfilePassword } from 'services/profile'
 
 import PasswordInput from 'components/passwordInput'
+import { GLOBAL_ERROR } from 'configs'
 
 const ChangePasswordModal = ({ open, onClose }) => {
   const notify = useNotify()
@@ -38,7 +39,7 @@ const ChangePasswordModal = ({ open, onClose }) => {
         handleOnClose()
       })
       .catch(() => {
-        notify.error('Ups, algo salio man')
+        notify.error(GLOBAL_ERROR)
       })
   }
 

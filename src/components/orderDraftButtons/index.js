@@ -40,7 +40,7 @@ const OrderDraftButtons = ({ campaign, setCampaignState }) => {
 }
           label={
             <Typography>Aceptar términos y condiciones,
-              <a href='https://www.google.com/' target='blank'> leer mas.</a>
+              <a className={styles.link} href={`${process.env.REACT_APP_FRONT_URL}/terms-and-conditions`} target='blank'> leer mas.</a>
             </Typography>
 }
         />
@@ -49,7 +49,7 @@ const OrderDraftButtons = ({ campaign, setCampaignState }) => {
       <div className={styles.action}>
         {campaign.status === 'cancel' && (
           <Link to='/campaigns'>
-            <Button variant='outlined' color='primary'>
+            <Button component='span' variant='outlined' color='primary'>
               <ArrowBackIcon sx={{ marginRight: '10px' }} />
               Salir
             </Button>

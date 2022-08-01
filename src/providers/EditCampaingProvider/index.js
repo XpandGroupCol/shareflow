@@ -27,7 +27,7 @@ const CampaignProvider = ({ children }) => {
       id,
       globalCampaign,
       updateCampaign: setGlobalCampaign,
-      loading: isLoading || !globalCampaign?._id,
+      loading: isError ? false : isLoading || !globalCampaign?._id,
       error: isError,
       setLogo
     }}

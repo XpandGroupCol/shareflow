@@ -1,125 +1,185 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Divider } from '@mui/material'
+import { Dialog, DialogActions, DialogContent, DialogTitle, Divider } from '@mui/material'
 import Button from 'components/button'
 import ControllerField from 'components/controllerField'
 import Input from 'components/input'
-import Modal from 'components/modal'
 import Typography from 'components/typography'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styles from './changePasswordModal.module.css'
 
 import { schema } from './schema'
 import { useMutation } from 'react-query'
-import { updateProfile } from 'services/profile'
+import { updateCompany, uploadRut } from 'services/profile'
+import PhoneInput from 'components/phoneInput'
+import UpdateFile from 'components/updateFile'
+import UploadFile from 'components/uploadFile'
+import { useNotify } from 'hooks/useNotify'
+import { GLOBAL_ERROR } from 'configs'
 
 const UpdateCompanyProfileModal = ({ open, onClose, initValues, showButton }) => {
-  const { formState: { errors }, handleSubmit, control, reset } = useForm({
+  const { formState: { errors }, handleSubmit, control, reset, setError, clearErrors } = useForm({
     defaultValues: { ...initValues },
     resolver: yupResolver(schema)
   })
 
-  const { isLoading, mutateAsync } = useMutation(updateProfile)
+  const notify = useNotify()
+
+  const [rut, setRut] = useState(initValues?.rut || { url: '', name: '' })
+  const { isLoading: uploadRutLoading, mutateAsync: changeRut } = useMutation(uploadRut)
+
+  const { isLoading, mutateAsync } = useMutation(updateCompany)
 
   useEffect(() => {
     if (!open) reset(initValues)
   }, [open, initValues, reset])
 
-  const onSubmit = (values) => {
-    const payload = new window.FormData()
-    const { checkRut, rut, ...restOfUser } = values
+  console.log({ errors })
 
-    if (rut?.url) {
-      payload.append('rut', rut?.url)
-    } else if (rut === null) {
-      payload.append('rut', '')
-    } else {
-      payload.append('image', rut)
+  const onSubmit = async ({
+    name,
+    lastName,
+    company,
+    nit,
+    phone,
+    address,
+    companyEmail
+  }) => {
+    const payload = {
+      name,
+      lastName,
+      company,
+      nit,
+      phone,
+      address,
+      companyEmail,
+      rut
     }
+    try {
+      if (!rut?.url) return notify.info('Por favor debes adjuntar el rut en formato pdf')
+      await mutateAsync({ id: initValues?._id, payload })
+      notify.info('Nuestro equipo estara validando la infomación enviada, durante las proximas 24 horas te estará llegando un correo de confirmación para que puedas realizar el pago ')
+      onClose()
+      showButton()
+    } catch (e) {
+      notify.error(GLOBAL_ERROR)
+    }
+  }
 
-    Object.entries(restOfUser).forEach(([key, value]) => {
-      payload.append(key, value)
-    })
-    mutateAsync(payload).then(response => {
-      if (response) {
-        onClose()
-        showButton()
-      }
-    })
+  const handleOnUploadRut = async (file) => {
+    try {
+      const payload = new window.FormData()
+      payload.append('file', file)
+      const { data } = await changeRut({ payload, id: initValues?._id })
+      if (!data) return notify.error(GLOBAL_ERROR)
+      setRut(data)
+      notify.success('El rut se se ha guardado correctamente')
+    } catch (e) {
+      notify.error(GLOBAL_ERROR)
+    }
+  }
+
+  const onDeleteRut = async () => {
+    try {
+      const payload = { name: initValues?.rut?.name || '' }
+      const { data } = await changeRut({ payload, id: initValues?._id })
+      if (!data) return notify.error(GLOBAL_ERROR)
+      setRut({ url: '', name: '' })
+      notify.success('El rut se ha eliminado correctamente')
+    } catch (e) {
+      notify.error(GLOBAL_ERROR)
+    }
   }
 
   return (
-    <Modal
+    <Dialog
+      fullWidth
+      maxWidth='sm'
       open={open}
       onClose={onClose}
+      sx={{
+        '&.MuiPaper-root': {
+          backgroundColor: 'red'
+        }
+      }}
     >
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.changePasswordForm}>
-        <Typography sx={{
-          fontSize: '20px',
-          fontWeight: 'bold',
-          textTransform: 'uppercase',
-          textAlign: 'center'
-        }}
-        >Perfil de empresa
-        </Typography>
-        <Typography sx={{
-          textAlign: 'center',
-          fontSize: '13px'
-        }}
-        >Es necesario que completes el siguiente formulario para poder continuar con la orden.
-        </Typography>
-        <Divider sx={{ margin: '10px 0 20px' }} />
-        <div className={styles.fields}>
+      <DialogTitle fontWeight='bold'>Perfil de empresa</DialogTitle>
+      <Divider />
+      <DialogContent sx={{ marginBottom: '30px' }}>
+        <Typography fontSize='18px' textAlign='center'>Es necesario que completes el siguiente formulario para poder continuar con la orden.</Typography>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.changePasswordForm}>
           <ControllerField
             name='company'
             label='Empresa'
+            size='normal'
             control={control}
             element={Input}
             error={Boolean(errors?.company?.message)}
             helperText={errors?.company?.message}
           />
-          <ControllerField
-            name='companyEmail'
-            label='Correo electronico empresa'
-            control={control}
-            element={Input}
-            error={Boolean(errors?.companyEmail?.message)}
-            helperText={errors?.companyEmail?.message}
-          />
+
           <ControllerField
             name='nit'
             label='Nit'
+            size='normal'
             control={control}
             element={Input}
-            type='number'
             error={Boolean(errors?.nit?.message)}
             helperText={errors?.nit?.message}
           />
           <ControllerField
-            name='phone'
-            label='Telefono'
-            control={control}
-            element={Input}
-            type='number'
-            error={Boolean(errors?.phone?.message)}
-            helperText={errors?.phone?.message}
-          />
-          <ControllerField
             name='address'
-            label='Direccion'
+            label='Dirección'
+            size='normal'
             control={control}
             element={Input}
             error={Boolean(errors?.address?.message)}
             helperText={errors?.address?.message}
           />
+          <ControllerField
+            name='companyEmail'
+            label='Correo electronico empresa'
+            type='email'
+            size='normal'
+            control={control}
+            element={Input}
+            error={Boolean(errors?.companyEmail?.message)}
+            helperText={errors?.companyEmail?.message}
+          />
 
-        </div>
-        <div className={styles.buttons}>
-          <Button type='button' onClick={onClose} variant='outlined' color='secondary'>Cancelar</Button>
-          <Button type='submit' loading={isLoading}>Confimar</Button>
-        </div>
-      </form>
-    </Modal>
+          <ControllerField
+            name='phone'
+            label='Whatsapp'
+            size='normal'
+            control={control}
+            element={PhoneInput}
+            error={Boolean(errors?.phone?.message)}
+            helperText={errors?.phone?.message}
+            onBlur={(error) => {
+              if (error) {
+                setError('phone', { type: 'custom', message: 'El numero de telefono no es valido' })
+              } else {
+                clearErrors('phone')
+              }
+            }}
+          />
+
+          <Divider />
+          <Typography>Rut</Typography>
+
+          {
+            rut?.name
+              ? <UpdateFile file={rut} onDelete={onDeleteRut} loading={uploadRutLoading} />
+              : <UploadFile onChange={handleOnUploadRut} loading={uploadRutLoading} />
+          }
+
+        </form>
+      </DialogContent>
+      <DialogActions>
+        <Button type='button' onClick={onClose} disabled={uploadRutLoading} variant='outlined' color='secondary'>Cancelar</Button>
+        <Button type='button' onClick={handleSubmit(onSubmit)} loading={isLoading} disabled={uploadRutLoading} variant='outlined'>Actualizar</Button>
+      </DialogActions>
+    </Dialog>
   )
 }
 

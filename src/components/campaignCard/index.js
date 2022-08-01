@@ -19,6 +19,7 @@ import { useQueryClient } from 'react-query'
 import { CAMPAINGS } from 'configs/queryKeys'
 import { TAG_COLOR } from 'configs/campaigns'
 import StatusTag from 'components/statusTag'
+import { GLOBAL_ERROR } from 'configs'
 
 const CampaignCard = (campaign) => {
   const { _id, logo, brand, name, status, startDate, endDate, summary, publishers } = campaign
@@ -40,7 +41,7 @@ const CampaignCard = (campaign) => {
       queryClient.invalidateQueries([CAMPAINGS])
       notify.success('Su campaña ha sido creada correctamente')
     } catch (error) {
-      notify.error('Algo salio mal por favor intente nuevamente')
+      notify.error(GLOBAL_ERROR)
     }
   }
 

@@ -9,7 +9,6 @@ import Input from 'components/input'
 import Button from 'components/button'
 import styles from './form.module.css'
 import { useState } from 'react'
-import { editUser, uploadUserfile } from 'services/users'
 import { useNotify } from 'hooks/useNotify'
 import ChangeAvatar from 'components/changeAvatar'
 import PhoneInput from 'components/phoneInput'
@@ -17,6 +16,8 @@ import { useMutation } from 'react-query'
 import UploadFile from 'components/uploadFile'
 import UpdateFile from 'components/updateFile'
 import ChangePasswordModal from 'components/changePasswordModal'
+import { uploadAvater, uploadRut, updateProfile } from 'services/profile'
+import { GLOBAL_ERROR } from 'configs'
 
 const ProfileForm = ({ user }) => {
   const { formState: { errors }, handleSubmit, control, setError, clearErrors } = useForm({
@@ -32,46 +33,38 @@ const ProfileForm = ({ user }) => {
 
   const [rut, setRut] = useState(user?.rut || { url: '', name: '' })
 
-  const { isLoading, mutateAsync } = useMutation(editUser)
+  const { isLoading, mutateAsync } = useMutation(updateProfile)
 
-  const { isLoading: updatedIsLoading, mutateAsync: changeAvatar } = useMutation(uploadUserfile)
+  const { isLoading: updatedIsLoading, mutateAsync: changeAvatar } = useMutation(uploadAvater)
 
-  const { isLoading: uploadRutLoading, mutateAsync: changeRut } = useMutation(uploadUserfile)
+  const { isLoading: uploadRutLoading, mutateAsync: changeRut } = useMutation(uploadRut)
 
   const onSubmit = async ({
-    email,
     name,
     lastName,
     company,
     nit,
-    phonePrefixed,
     phone,
     address,
-    companyEmail,
-    percentage,
-    checkRut,
-    _id
+    companyEmail
   }) => {
     const payload = {
-      email,
       name,
       lastName,
       company,
       nit,
-      phonePrefixed,
       phone,
       address,
       companyEmail,
       rut,
-      percentage,
-      checkRut,
       avatar
     }
     try {
-      await mutateAsync({ id: _id, payload })
+      const userResponse = await mutateAsync(payload)
+      console.log({ userResponse })
       notify.success('El usuario se ha modificado exitosamente')
     } catch (e) {
-      notify.error('ups, algo salio mal por favor intente nuevamente')
+      notify.error(GLOBAL_ERROR)
     }
   }
 
@@ -79,36 +72,50 @@ const ProfileForm = ({ user }) => {
     try {
       const payload = new window.FormData()
       payload.append('file', file)
-      const { data } = await changeAvatar(payload)
-      if (!data) return notify.error('ups, algo salio mal por favor intente nuevamente')
+      const { data } = await changeAvatar({ payload, id: user?._id })
+      if (!data) return notify.error(GLOBAL_ERROR)
       setAvatar(data)
       notify.success('La imagen se ha cambiado correctamente')
     } catch (e) {
-      notify.error('ups, algo salio mal por favor intente nuevamente')
+      notify.error(GLOBAL_ERROR)
     }
   }
 
-  const onDelete = () => {
-    // aqui se debe llamar al back
-    setAvatar({ url: '', name: '' })
+  const onDelete = async () => {
+    try {
+      const payload = { name: user?.avatar?.name || '' }
+      const { data } = await changeAvatar({ payload, id: user?._id })
+      if (!data) return notify.error(GLOBAL_ERROR)
+      setAvatar({ url: '', name: '' })
+      notify.success('La imagen se ha cambiado correctamente')
+    } catch (e) {
+      notify.error(GLOBAL_ERROR)
+    }
   }
 
   const handleOnUploadRut = async (file) => {
     try {
       const payload = new window.FormData()
       payload.append('file', file)
-      const { data } = await changeRut(payload)
-      if (!data) return notify.error('ups, algo salio mal por favor intente nuevamente')
+      const { data } = await changeRut({ payload, id: user?._id })
+      if (!data) return notify.error(GLOBAL_ERROR)
       setRut(data)
-      notify.success('La imagen se ha cambiado correctamente')
+      notify.success('El rut se se ha guardado correctamente')
     } catch (e) {
-      notify.error('ups, algo salio mal por favor intente nuevamente')
+      notify.error(GLOBAL_ERROR)
     }
   }
 
-  const onDeleteRut = () => {
-    // aqui se debe llamar al back
-    setRut({ url: '', name: '' })
+  const onDeleteRut = async () => {
+    try {
+      const payload = { name: user?.rut?.name || '' }
+      const { data } = await changeRut({ payload, id: user?._id })
+      if (!data) return notify.error(GLOBAL_ERROR)
+      setRut({ url: '', name: '' })
+      notify.success('El rut se ha eliminado correctamente')
+    } catch (e) {
+      notify.error(GLOBAL_ERROR)
+    }
   }
 
   const handleOpenModal = (bool) => () => setOpenModal(bool)
@@ -225,29 +232,18 @@ const ProfileForm = ({ user }) => {
             }}
           />
 
-          <ControllerField
-            name='percentage'
-            label='Porcentaje de comision'
-            size='normal'
-            control={control}
-            element={Input}
-            type='number'
-            error={Boolean(errors?.percentage?.message)}
-            helperText={errors?.percentage?.message}
-          />
-
           <Divider />
           <Typography>Rut</Typography>
 
           {
             rut?.name
-              ? <UpdateFile file={rut} onDelete={onDeleteRut} />
-              : <UploadFile onChange={handleOnUploadRut} />
+              ? <UpdateFile file={rut} onDelete={onDeleteRut} loading={uploadRutLoading} />
+              : <UploadFile onChange={handleOnUploadRut} loading={uploadRutLoading} />
           }
 
           <Box sx={{ display: 'flex', gap: '20px', marginTop: '20px', justifyContent: 'center' }}>
             <Button disabled={updatedIsLoading || !!Object.keys(errors).length || uploadRutLoading} loading={isLoading} sx={{ minWidth: '200px' }} variant='contained' type='submit'>
-              Editar
+              Actualizar
             </Button>
             <Button disabled={updatedIsLoading || uploadRutLoading} sx={{ flex: 1 }} variant='outlined' type='button' onClick={handleOpenModal(true)}>
               Cambiar contraseña

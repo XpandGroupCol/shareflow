@@ -12,9 +12,13 @@ import { Link } from 'react-router-dom'
 import { getFormatedNumber, parseDate } from 'utils/normalizeData'
 import styles from './details.module.css'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { useDownloadPDF } from 'hooks/useDownloadPDF'
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 
 const CampaignDetails = ({ campaing, updateCampaign }) => {
   const localState = TAG_COLOR[campaing?.status] || {}
+
+  const { getPDF } = useDownloadPDF()
 
   return (
     <>
@@ -32,7 +36,7 @@ const CampaignDetails = ({ campaing, updateCampaign }) => {
       }}
       >
         <section className={styles.header}>
-          <div>
+          <div className={styles.information}>
             <Box sx={{ display: 'flex', gap: '10px' }}>
               <Typography fontSize='16px' fontWeight='bold'>Número de orden:</Typography>
               <Typography>{campaing?.orderNumber?.toString()?.padStart(7, '0') || ''}</Typography>
@@ -68,8 +72,12 @@ const CampaignDetails = ({ campaing, updateCampaign }) => {
 
             </Box>
           </div>
-          <Box>
-            <Avatar sx={{ width: 80, height: 80 }} src={campaing?.logo?.url || ''} label={campaing?.brand} />
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+            <Avatar sx={{ width: 100, height: 100 }} src={campaing?.logo?.url || ''} label={campaing?.brand} />
+            <Button size='small' variant='contained' color='secondary' onClick={() => getPDF(campaing)}>
+              <PictureAsPdfIcon sx={{ marginRight: '10px' }} />
+              Descargar Orden
+            </Button>
           </Box>
         </section>
         <Divider sx={{ margin: '20px 0' }} />

@@ -1,4 +1,5 @@
 
+import { GLOBAL_ERROR } from 'configs'
 import { useNotify } from 'hooks/useNotify'
 import { useCallback, useState } from 'react'
 
@@ -24,7 +25,7 @@ export const useGetPublishersByTarget = () => {
       return Promise.resolve({ listOffPublishers, percentage: user?.percentage || 15 })
     } catch (e) {
       setLoading(false)
-      notify.error('Algo salio mal, por favor intenta nuevamente')
+      notify.error(GLOBAL_ERROR)
     }
   }, [notify])
 

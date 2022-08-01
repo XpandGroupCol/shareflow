@@ -33,17 +33,33 @@ export const changeProfilePassword = async (payload) => {
   }
 }
 
-export const changeAvatar = async (params) => {
+export const uploadAvater = async ({ id, payload }) => {
   try {
-    const { data } = await axiosFetcher(`/users/download${params}`,
-      { method: 'GET', responseType: 'blob' }
+    const { data } = await axiosFetcher(`/users/upload-avatar/${id}`,
+      { method: 'PUT', data: payload }
     )
-    const url = window.URL.createObjectURL(new Blob([data]))
-    const link = document.createElement('a')
-    link.setAttribute('download', 'users.csv')
-    link.href = url
-    document.body.appendChild(link)
-    link.click()
+    return data
+  } catch (err) {
+    return Promise.reject(err)
+  }
+}
+
+export const uploadRut = async ({ id, payload }) => {
+  try {
+    const { data } = await axiosFetcher(`/users/upload-rut/${id}`,
+      { method: 'PUT', data: payload }
+    )
+    return data
+  } catch (err) {
+    return Promise.reject(err)
+  }
+}
+
+export const updateCompany = async ({ id, payload }) => {
+  try {
+    const { data } = await axiosFetcher(`/users/update-company/${id}`,
+      { method: 'PUT', data: payload }
+    )
     return data
   } catch (err) {
     return Promise.reject(err)

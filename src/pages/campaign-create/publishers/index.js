@@ -1,5 +1,5 @@
 import PublisherForm from 'components/campaigns/publishers'
-import { MAX_SHARE_VALUE } from 'configs'
+import { GLOBAL_ERROR, MAX_SHARE_VALUE } from 'configs'
 import { useNotify } from 'hooks/useNotify'
 import { useGlobalCampaigns } from 'providers/CampaignProvider'
 import { useMutation } from 'react-query'
@@ -30,7 +30,7 @@ const PublishersPage = () => {
       setCampaign(prev => ({ ...prev, publishers: data?.publishers ?? [] }))
       navigate('/campaigns/create/media')
     } catch (error) {
-      notify.error('Algo salio mal por favor intente nuevamente')
+      notify.error(GLOBAL_ERROR)
     }
   }
 

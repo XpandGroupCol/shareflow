@@ -4,10 +4,12 @@ import CampaignForm from 'components/campaigns/form'
 import ChangeAvatar from 'components/changeAvatar'
 import LoadingPage from 'components/loadingPage'
 import Typography from 'components/typography'
+import { GLOBAL_ERROR } from 'configs'
 import { useGetLists } from 'hooks/useGetLists'
 import { useGetPublishersByTarget } from 'hooks/useGetPublishersByTarget'
 import { useNotify } from 'hooks/useNotify'
 import { useEditGlobalCampaigns } from 'providers/EditCampaingProvider'
+import { useRef } from 'react'
 import { useMutation } from 'react-query'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { uploadCampaignfile } from 'services/campaigns'
@@ -15,6 +17,7 @@ import { uploadCampaignfile } from 'services/campaigns'
 const CampaignEditFormPage = () => {
   const navigate = useNavigate()
   const notify = useNotify()
+  const notifyRef = useRef()
 
   const { loading: loadingPublishers, getPublushers } = useGetPublishersByTarget()
 
@@ -28,11 +31,11 @@ const CampaignEditFormPage = () => {
       const payload = new window.FormData()
       payload.append('file', file)
       const { data } = await changeLogo({ payload, id: globalCampaign?._id })
-      if (!data) return notify.error('ups, algo salio mal por favor intente nuevamente')
+      if (!data) return notify.error(GLOBAL_ERROR)
       setLogo(data)
       notify.success('La imagen se ha cambiado correctamente')
     } catch (e) {
-      notify.error('ups, algo salio mal por favor intente nuevamente')
+      notify.error(GLOBAL_ERROR)
     }
   }
 
@@ -40,11 +43,11 @@ const CampaignEditFormPage = () => {
     try {
       const payload = { name: globalCampaign?.logo?.name || '' }
       const { data } = await changeLogo({ payload, id: globalCampaign?._id })
-      if (!data) return notify.error('ups, algo salio mal por favor intente nuevamente')
+      if (!data) return notify.error(GLOBAL_ERROR)
       setLogo({ url: '', name: '' })
       notify.success('La imagen se ha cambiado correctamente')
     } catch (e) {
-      notify.error('ups, algo salio mal por favor intente nuevamente')
+      notify.error(GLOBAL_ERROR)
     }
   }
 
@@ -86,6 +89,10 @@ const CampaignEditFormPage = () => {
 
   if (loading) return <LoadingPage text='Buscando campaña ...' />
   if (error) {
+    if (!notifyRef.current) {
+      notifyRef.current = notify.error(GLOBAL_ERROR)
+    }
+
     return <Navigate to='/campaigns' />
   }
 

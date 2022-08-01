@@ -1,11 +1,15 @@
-.button{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
 .action{
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 15px;
+}
+
+@media screen and (max-width: 600px) {
+    .action{
+        flex-direction: column;
+    }
+
+    .action > a > span {
+       width: 100%;
+    }
 }

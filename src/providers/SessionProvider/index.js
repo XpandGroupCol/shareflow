@@ -1,3 +1,4 @@
+import { GLOBAL_ERROR } from 'configs'
 import { useNotify } from 'hooks/useNotify'
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { getSession, login, setLogin, verifySession } from 'services/auth'
@@ -31,7 +32,7 @@ const SessionProvider = ({ children }) => {
       const user = await login(payload)
       setSession({ loadingPage: false, user, loading: false })
     } catch (error) {
-      notify.error('Ups, algo salio mal')
+      notify.error(GLOBAL_ERROR)
       setSession({ loadingPage: false, user: null, loading: false })
     }
   }, [notify])

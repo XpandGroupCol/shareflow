@@ -89,3 +89,20 @@ export const validatorFile = async (payload) => {
     return Promise.reject(e)
   }
 }
+
+export const downloadPDF = async ({ id, name }) => {
+  try {
+    const { data } = await axiosFetcher(`/campaigns/pdf/${id}`,
+      { method: 'GET', responseType: 'blob' }
+    )
+    const url = window.URL.createObjectURL(new Blob([data]))
+    const link = document.createElement('a')
+    link.setAttribute('download', `${name}.pdf`)
+    link.href = url
+    document.body.appendChild(link)
+    link.click()
+    return data
+  } catch (err) {
+    return Promise.reject(err)
+  }
+}

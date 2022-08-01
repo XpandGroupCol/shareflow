@@ -27,7 +27,7 @@ const useValidatorFile = (initValues = []) => {
         const currentFile = files[index]
         if (currentFile) {
           currentFile.loading = false
-          currentFile.media = { name: '', url: file?.url }
+          currentFile.media = file
         }
         return files
       })
