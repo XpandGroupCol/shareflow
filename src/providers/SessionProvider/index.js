@@ -1,7 +1,9 @@
 import { GLOBAL_ERROR } from 'configs'
+import { SESSION_DATA } from 'configs/auth'
 import { useNotify } from 'hooks/useNotify'
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { getSession, login, setLogin, verifySession } from 'services/auth'
+import { Storage } from 'utils/storage'
 const SessionContext = createContext()
 
 const SessionProvider = ({ children }) => {
@@ -42,8 +44,14 @@ const SessionProvider = ({ children }) => {
     setSession(prev => ({ ...prev, user }))
   }, [])
 
+  const setUSerSession = useCallback(({ role, name, avatar, email }) => {
+    const user = { role, name, avatar, email }
+    Storage.setSecure(SESSION_DATA, user)
+    setSession(prev => ({ ...prev, user }))
+  }, [])
+
   return (
-    <SessionContext.Provider value={{ ...session, signIn, setUser }}>
+    <SessionContext.Provider value={{ ...session, signIn, setUser, setUSerSession }}>
       {children}
     </SessionContext.Provider>
   )

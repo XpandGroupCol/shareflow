@@ -34,8 +34,6 @@ const UpdateCompanyProfileModal = ({ open, onClose, initValues, showButton }) =>
     if (!open) reset(initValues)
   }, [open, initValues, reset])
 
-  console.log({ errors })
-
   const onSubmit = async ({
     name,
     lastName,

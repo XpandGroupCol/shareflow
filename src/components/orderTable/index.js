@@ -28,7 +28,7 @@ const OrderTable = ({
               <TableCell align='center'>{share}%</TableCell>
               <TableCell align='center'>${getFormatedNumber(pricePerUnit)} ({biddingModel})</TableCell>
               <TableCell align='right'>{getFormatedNumber(objectiveGoal)}</TableCell>
-              <TableCell align='right'>{getFormatedNumber(value)}</TableCell>
+              <TableCell align='right'>${getFormatedNumber(value)}</TableCell>
             </TableRow>
           ))}
 

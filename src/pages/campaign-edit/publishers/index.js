@@ -6,7 +6,8 @@ import { useEditGlobalCampaigns } from 'providers/EditCampaingProvider'
 import { useMutation } from 'react-query'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { updateCampaign as setCampaign } from 'services/campaigns'
-import { clearCampaign, getSummaryInformation, getTotalShare } from 'utils/publishersFormat'
+import { getFormatedNumber } from 'utils/normalizeData'
+import { clearCampaign, getSummaryInformation, getTotalShare, getValidateMinBudget } from 'utils/publishersFormat'
 
 const PublishersEditPage = () => {
   const { globalCampaign, updateCampaign } = useEditGlobalCampaigns()
@@ -23,6 +24,19 @@ const PublishersEditPage = () => {
     const share = getTotalShare(publishers)
     if (share < MAX_SHARE_VALUE) {
       return notify.error(`La sumatoria total del share entre todos los medios es de ${share}% y debe ser igual ${MAX_SHARE_VALUE}%`)
+    }
+
+    const validateMinbudget = getValidateMinBudget(publishers)
+
+    if (Object.keys(validateMinbudget).length) {
+      let message = ''
+      Object.entries(validateMinbudget).forEach(([key, { sum, miniBudget }]) => {
+        if (sum < miniBudget) {
+          message = `${key} tiene una inversión minima de $${getFormatedNumber(miniBudget)} y el valor intertido hasta el momento es de $${getFormatedNumber(sum)}, por favor ajuste el share a invertir.`
+        }
+      })
+
+      if (message) return notify.info(message)
     }
 
     const data = clearCampaign({ ...restOfValues, publishers })

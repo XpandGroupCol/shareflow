@@ -18,12 +18,15 @@ import UpdateFile from 'components/updateFile'
 import ChangePasswordModal from 'components/changePasswordModal'
 import { uploadAvater, uploadRut, updateProfile } from 'services/profile'
 import { GLOBAL_ERROR } from 'configs'
+import { useSession } from 'providers/SessionProvider'
 
 const ProfileForm = ({ user }) => {
   const { formState: { errors }, handleSubmit, control, setError, clearErrors } = useForm({
     defaultValues: user ? { ...user } : { ...defaultValues },
     resolver: yupResolver(schema)
   })
+
+  const { setUSerSession } = useSession()
 
   const [openModal, setOpenModal] = useState(false)
 
@@ -60,8 +63,8 @@ const ProfileForm = ({ user }) => {
       avatar
     }
     try {
-      const userResponse = await mutateAsync(payload)
-      console.log({ userResponse })
+      const { data } = await mutateAsync(payload)
+      setUSerSession(data)
       notify.success('El usuario se ha modificado exitosamente')
     } catch (e) {
       notify.error(GLOBAL_ERROR)
@@ -73,7 +76,9 @@ const ProfileForm = ({ user }) => {
       const payload = new window.FormData()
       payload.append('file', file)
       const { data } = await changeAvatar({ payload, id: user?._id })
+
       if (!data) return notify.error(GLOBAL_ERROR)
+      setUSerSession({ ...user, avatar: data })
       setAvatar(data)
       notify.success('La imagen se ha cambiado correctamente')
     } catch (e) {
@@ -86,6 +91,7 @@ const ProfileForm = ({ user }) => {
       const payload = { name: user?.avatar?.name || '' }
       const { data } = await changeAvatar({ payload, id: user?._id })
       if (!data) return notify.error(GLOBAL_ERROR)
+      setUSerSession({ ...user, avatar: data })
       setAvatar({ url: '', name: '' })
       notify.success('La imagen se ha cambiado correctamente')
     } catch (e) {

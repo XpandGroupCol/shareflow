@@ -2,8 +2,9 @@ import axios from 'axios'
 import { BASE_URL } from 'configs'
 import { REACT_ACCESS_TOKEN } from 'configs/auth'
 import { Storage } from 'utils/storage'
+import { logout } from './auth'
 
-export const axiosFetcher = (path, { token, headers = {}, ...arg }) => {
+export const axiosFetcher = (path, { token, headers = {}, ...arg }, requireAuth = true) => {
   const access = token ?? Storage.get(REACT_ACCESS_TOKEN)
 
   if (access) {
@@ -17,5 +18,11 @@ export const axiosFetcher = (path, { token, headers = {}, ...arg }) => {
     baseURL: BASE_URL,
     url: path,
     ...arg
-  })
+  }).then((data) => data)
+    .catch((e) => {
+      if (requireAuth && e?.response?.data?.statusCode === 401) {
+        return logout()
+      }
+      return Promise.reject(e)
+    })
 }

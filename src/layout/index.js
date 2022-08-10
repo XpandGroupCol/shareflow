@@ -83,7 +83,7 @@ export default function Layout ({ children }) {
               </Typography>
               <Typography color='gray' sx={{ fontSize: 12, textAlign: 'right' }}>{user?.role}</Typography>
             </div>
-            <Avatar src={user?.image} label={user?.name} sx={{ width: 36, height: 36 }} />
+            <Avatar src={user?.avatar?.url} label={user?.name} sx={{ width: 36, height: 36 }} />
 
           </button>
           <Menu

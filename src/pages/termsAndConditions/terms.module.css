@@ -1,0 +1,46 @@
+.header {
+    padding: 20px 40px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.main {
+    padding: 0 40px 40px;
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.title {
+    color: #4b494f;
+    font-weight: bold;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    color: #4b494f;
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.paragraph {
+    color: #4b494f;
+    font-size: 16px;
+    margin-bottom: 30px;
+    text-align: justify;
+}
+
+.list {
+    margin: 0 0 0 30px;
+}
+
+
+.list li {
+    list-style: circle;
+    margin-bottom: 15px;
+}

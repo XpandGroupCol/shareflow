@@ -18,7 +18,7 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 const CampaignDetails = ({ campaing, updateCampaign }) => {
   const localState = TAG_COLOR[campaing?.status] || {}
 
-  const { getPDF } = useDownloadPDF()
+  const { getPDF, loading } = useDownloadPDF()
 
   return (
     <>
@@ -74,7 +74,7 @@ const CampaignDetails = ({ campaing, updateCampaign }) => {
           </div>
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
             <Avatar sx={{ width: 100, height: 100 }} src={campaing?.logo?.url || ''} label={campaing?.brand} />
-            <Button size='small' variant='contained' color='secondary' onClick={() => getPDF(campaing)}>
+            <Button loading={loading} size='small' variant='contained' color='secondary' onClick={() => getPDF(campaing)}>
               <PictureAsPdfIcon sx={{ marginRight: '10px' }} />
               Descargar Orden
             </Button>

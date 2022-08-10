@@ -18,6 +18,8 @@ import styles from './campaignForm.module.css'
 import { getFormatedNumber } from 'utils/normalizeData'
 import { SEX_LIST } from 'configs/lists'
 import Select from 'components/select'
+import AutocompleteLocations from 'components/autocompleteLocations'
+import AutocompleteSectors from 'components/autocompleteSectors'
 
 const CampaignForm = ({ onSubmit, initValues, loading, ages = [], targets = [], sectors = [], locations = [] }) => {
   const currencyRef = useRef(null)
@@ -102,8 +104,7 @@ const CampaignForm = ({ onSubmit, initValues, loading, ages = [], targets = [], 
         label='Ubicaciones'
         control={control}
         size='normal'
-        element={Autocomplete}
-        options={locations}
+        element={AutocompleteLocations}
         multiple
         error={Boolean(errors?.locations?.message)}
         helperText={errors?.locations?.message}
@@ -124,9 +125,8 @@ const CampaignForm = ({ onSubmit, initValues, loading, ages = [], targets = [], 
         name='sector'
         label='Sector Economico'
         control={control}
-        element={Autocomplete}
+        element={AutocompleteSectors}
         size='normal'
-        options={sectors}
         error={Boolean(errors?.sector?.message)}
         helperText={errors?.sector?.message}
       />

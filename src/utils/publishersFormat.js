@@ -76,7 +76,8 @@ export const clearPublishers = ({
   mimetype,
   height,
   logo,
-  isVideo
+  isVideo,
+  miniBudget
 }) => ({
   formatId,
   publisherId,
@@ -94,7 +95,8 @@ export const clearPublishers = ({
   publisher,
   height,
   logo,
-  isVideo
+  isVideo,
+  miniBudget
 })
 export const clearCampaign = ({
   ages,
@@ -163,6 +165,7 @@ export const createPayload = (values) => {
         height,
         publisher,
         isVideo,
+        miniBudget,
         logo
       }, i) => {
         payload.append(`${key}[${i}][formatId]`, formatId ?? '')
@@ -183,6 +186,7 @@ export const createPayload = (values) => {
         payload.append(`${key}[${i}][isVideo]`, isVideo ?? false)
         payload.append(`${key}[${i}][logo][url]`, logo?.url ?? '')
         payload.append(`${key}[${i}][logo][name]`, logo?.name ?? '')
+        payload.append(`${key}[${i}][miniBudget]`, miniBudget ?? 0)
       })
       return
     }
@@ -194,4 +198,28 @@ export const createPayload = (values) => {
   })
 
   return payload
+}
+
+export const getValidateMinBudget = (publishers) => {
+  return publishers.reduce((acc, current) => {
+    const name = current?.publisher
+
+    if (current.miniBudget === 0) return acc
+
+    if (acc[name]) {
+      acc[name] = {
+        ...acc[name],
+        sum: acc[name]?.sum || 0 + current?.value || 0
+      }
+      return acc
+    }
+
+    return {
+      ...acc,
+      [name]: {
+        sum: current?.value || 0,
+        miniBudget: current?.miniBudget
+      }
+    }
+  }, {})
 }
