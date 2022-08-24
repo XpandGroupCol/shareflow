@@ -21,7 +21,7 @@ import Select from 'components/select'
 import AutocompleteLocations from 'components/autocompleteLocations'
 import AutocompleteSectors from 'components/autocompleteSectors'
 
-const CampaignForm = ({ onSubmit, initValues, loading, ages = [], targets = [], sectors = [], locations = [] }) => {
+const CampaignForm = ({ onSubmit, initValues, loading, ages = [], targets = [] }) => {
   const currencyRef = useRef(null)
 
   const { formState: { errors }, handleSubmit, control, getValues, setValue, setError, clearErrors } = useForm({

@@ -5,7 +5,7 @@ import ConfirmCancelCampaign from 'components/confirmCancelCampaign'
 import useWompi from 'hooks/useWompi'
 
 import { useState } from 'react'
-import { getCampaignById, updateCampaign } from 'services/campaigns'
+import { getCampaignById, requestImplementation, updateCampaign } from 'services/campaigns'
 import ExitPaidModal from 'components/exitPaidModal'
 import { Link } from 'react-router-dom'
 import { useNotify } from 'hooks/useNotify'
@@ -14,6 +14,7 @@ import PaymentIcon from '@mui/icons-material/Payment'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import styles from './orderPaidButtons.module.css'
 import { getUserInitValues } from 'utils/normalizeData'
+import { GLOBAL_ERROR } from 'configs'
 
 const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
   const { wompi, disabled } = useWompi()
@@ -21,6 +22,7 @@ const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
   const notify = useNotify()
   const { user } = campaign
   const { isLoading, mutateAsync } = useMutation(updateCampaign)
+  const { isLoading: loading, mutateAsync: requestImplementationAsync } = useMutation(requestImplementation)
 
   const [leavePage, setShowLeavePage] = useState(false)
   const [showProfileModal, setShowProfileModal] = useState(false)
@@ -45,7 +47,7 @@ const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
       rut
     } = user
 
-    if (address && company && companyEmail && nit && phone && rut && checkRut) {
+    if (address && company && companyEmail && nit && phone && rut && !checkRut) {
       return notify.info('Nuestro eqipo se encuentra validando la información de su empresa, esto puede tarde un par de horas.')
     }
 
@@ -84,6 +86,14 @@ const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
     })
   }
 
+  const handleImplementation = () => {
+    requestImplementationAsync(campaign?._id).then(({ data }) => {
+      setCampaignState(data?.campaign)
+    }).catch(() => {
+      return notify.info(GLOBAL_ERROR)
+    })
+  }
+
   const handleCancelOrder = (status) => () => {
     mutateAsync({ id: campaign?._id, payload: { status } }).then(({ data }) => {
       if (data) {
@@ -104,10 +114,16 @@ const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
       <Button disabled={leavePage} onClick={handleOpenModal} variant='contained' color='secondary'>
         Cancelar orden
       </Button>
-      <Button onClick={handlePay} disabled={disabled || leavePage} variant='contained'>
-        <PaymentIcon sx={{ marginRight: '10px' }} />
-        Pago con wompi
-      </Button>
+      {user?.hasCredit
+        ? (
+          <Button onClick={handleImplementation} disabled={disabled || leavePage} variant='contained' loading={loading}>
+            Enviar a implementación
+          </Button>)
+        : (
+          <Button onClick={handlePay} disabled={disabled || leavePage} variant='contained'>
+            <PaymentIcon sx={{ marginRight: '10px' }} />
+            Pago con wompi
+          </Button>)}
       <UpdateCompanyProfileModal
         showButton={() => setShowLeavePage(true)}
         open={showProfileModal} onClose={handleClose}

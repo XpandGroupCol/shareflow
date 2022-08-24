@@ -90,6 +90,18 @@ export const validatorFile = async (payload) => {
   }
 }
 
+export const requestImplementation = async (id) => {
+  try {
+    const { data } = await axiosFetcher('/campaigns/requestImplementation', {
+      method: 'POST',
+      data: { id }
+    })
+    return data
+  } catch (e) {
+    return Promise.reject(e)
+  }
+}
+
 export const downloadPDF = async ({ _id, name }) => {
   try {
     const { data } = await axiosFetcher(`/campaigns/pdf/${_id}`,
