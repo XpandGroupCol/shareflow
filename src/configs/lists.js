@@ -49,6 +49,12 @@ export const SEX_LIST = [
   }
 ]
 
+export const DEVICE = {
+  all: 'Todos',
+  male: 'Hombres',
+  women: 'Mujeres'
+}
+
 export const CAMAPAING_STATUS = [{
   value: 'draft',
   label: 'Borrador'

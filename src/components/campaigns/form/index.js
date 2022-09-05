@@ -19,9 +19,8 @@ import { getFormatedNumber } from 'utils/normalizeData'
 import { SEX_LIST } from 'configs/lists'
 import Select from 'components/select'
 import AutocompleteLocations from 'components/autocompleteLocations'
-import AutocompleteSectors from 'components/autocompleteSectors'
 
-const CampaignForm = ({ onSubmit, initValues, loading, ages = [], targets = [] }) => {
+const CampaignForm = ({ onSubmit, initValues, loading, ages = [], targets = [], sectors = [] }) => {
   const currencyRef = useRef(null)
 
   const { formState: { errors }, handleSubmit, control, getValues, setValue, setError, clearErrors } = useForm({
@@ -125,24 +124,25 @@ const CampaignForm = ({ onSubmit, initValues, loading, ages = [], targets = [] }
         name='sector'
         label='Sector Economico'
         control={control}
-        element={AutocompleteSectors}
+        element={Autocomplete}
         size='normal'
+        options={sectors}
         error={Boolean(errors?.sector?.message)}
         helperText={errors?.sector?.message}
       />
+      <ControllerField
+        name='ages'
+        label='Rangos de edad'
+        control={control}
+        element={Autocomplete}
+        options={ages}
+        size='normal'
+        multiple
+        error={Boolean(errors?.ages?.message)}
+        helperText={errors?.ages?.message}
+      />
 
       <div className={styles.inputDates}>
-        <ControllerField
-          name='ages'
-          label='Rangos de edad'
-          control={control}
-          element={Autocomplete}
-          options={ages}
-          size='normal'
-          multiple
-          error={Boolean(errors?.ages?.message)}
-          helperText={errors?.ages?.message}
-        />
 
         <ControllerField
           name='sex'
@@ -154,18 +154,17 @@ const CampaignForm = ({ onSubmit, initValues, loading, ages = [], targets = [] }
           error={Boolean(errors?.sex?.message)}
           helperText={errors?.sex?.message}
         />
+        <ControllerField
+          name='url'
+          label='Url'
+          placeholder='Ingrese la url ejemplo: hhtps://www...'
+          control={control}
+          element={Input}
+          size='normal'
+          error={Boolean(errors?.url?.message)}
+          helperText={errors?.url?.message}
+        />
       </div>
-
-      <ControllerField
-        name='url'
-        label='Url'
-        placeholder='Ingrese la url ejemplo: hhtps://www...'
-        control={control}
-        element={Input}
-        size='normal'
-        error={Boolean(errors?.url?.message)}
-        helperText={errors?.url?.message}
-      />
 
       <Divider sx={{ width: '100%' }} />
       <Typography sx={{ width: '100%' }} fontSize='20px' fontWeight='bold' align='left'>Presupuesto Publicitario</Typography>

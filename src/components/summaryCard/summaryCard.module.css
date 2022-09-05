@@ -32,6 +32,8 @@ div.mb20 {
 
 .summaryRow strong {
     font-weight: bold;
+    width: 40%;
+    text-align: right;
 }
 
 .total {

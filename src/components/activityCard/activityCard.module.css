@@ -1,0 +1,20 @@
+.card{
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.cardContent{
+    display:  flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.cardRow {
+    display: flex;
+    gap: 5px;
+}

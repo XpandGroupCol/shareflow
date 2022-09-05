@@ -1,4 +1,5 @@
-import { SEX_LIST } from 'configs/lists'
+import { IVA } from 'configs'
+import { DEVICE, SEX_LIST } from 'configs/lists'
 import { format } from 'date-fns'
 
 export const getAges = (ageRange = []) => {
@@ -9,7 +10,7 @@ export const getSex = (sex) => {
   return SEX_LIST.find(({ value }) => value === sex)?.label ?? ''
 }
 
-export const getFormatedNumber = (number) => number ? number?.toLocaleString() : ''
+export const getFormatedNumber = (number) => number ? number?.toLocaleString() : number
 
 export const parseDate = (date) => date ? format(new Date(date), 'dd/MM/yyyy') : ''
 
@@ -24,6 +25,18 @@ export const equalAges = (arr1 = [], arr2 = []) => {
   if (arr1.length !== arr2.length) return false
   const _arr2 = arr2.map(({ value }) => value)
   return arr1.every(({ value }) => _arr2.includes(value))
+}
+
+export const getDevice = (id) => DEVICE[id] || ''
+
+export const getTotal = (amount) => {
+  if (typeof amount !== 'number') return { iva: 0, total: 0 }
+  const iva = (IVA * amount) / 100
+
+  return {
+    iva,
+    total: iva + amount
+  }
 }
 
 export const getUserInitValues = ({

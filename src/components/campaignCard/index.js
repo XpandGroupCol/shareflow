@@ -108,7 +108,7 @@ const CampaignCard = (campaign) => {
                 Agregar multimedia
               </Button>
             </Link>)
-          : ['draft', 'pending', 'cancel', 'paid'].includes(status) && (
+          : ['draft', 'pending', 'cancel', 'paid', 'inProgress', 'completed'].includes(status) && (
             <Link to={`/campaigns/${_id}/order`}>
               <Button>
                 Ver order

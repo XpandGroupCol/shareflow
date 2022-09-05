@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import Typography from 'components/typography'
-import { getFormatedNumber, parseDate } from 'utils/normalizeData'
+import { getFormatedNumber, getTotal, parseDate } from 'utils/normalizeData'
 import styles from './summaryCard.module.css'
 
 const summaryCard = ({
@@ -12,6 +12,7 @@ const summaryCard = ({
   grossValue,
   serviceFee
 }) => {
+  const { iva, total } = getTotal(campaign?.amount)
   return (
     <>
       <div className={styles.summaryHeader}>
@@ -46,21 +47,29 @@ const summaryCard = ({
         </div>
         <div className={styles.summaryRow}>
           <Typography color='secondary'>Impresiones</Typography>
-          <Typography color='secondary'>{getFormatedNumber(prints)}</Typography>
+          <Typography color='secondary'>{getFormatedNumber(prints) || 0}</Typography>
         </div>
         <div className={styles.summaryRow}>
           <Typography color='secondary'>Reproducciones</Typography>
-          <Typography color='secondary'>{getFormatedNumber(reproductions)}</Typography>
+          <Typography color='secondary'>{getFormatedNumber(reproductions) || 0}</Typography>
         </div>
         <div className={classNames(styles.summaryRow, styles.mb20)}>
           <Typography color='secondary'>Clicks</Typography>
-          <Typography color='secondary'>{getFormatedNumber(clicks)}</Typography>
+          <Typography color='secondary'>{getFormatedNumber(clicks) || 0}</Typography>
         </div>
 
       </div>
+      <div className={classNames(styles.summaryRow)}>
+        <Typography>Sub total</Typography>
+        <Typography>$ {getFormatedNumber(campaign?.amount)}</Typography>
+      </div>
+      <div className={classNames(styles.summaryRow)}>
+        <Typography>Iva</Typography>
+        <Typography>$ {getFormatedNumber(iva)}</Typography>
+      </div>
       <div className={classNames(styles.summaryRow, styles.total)}>
-        <Typography>TOTAL</Typography>
-        <Typography>${getFormatedNumber(campaign?.amount)}</Typography>
+        <Typography>Total</Typography>
+        <Typography>$ {getFormatedNumber(total)}</Typography>
       </div>
     </>
   )

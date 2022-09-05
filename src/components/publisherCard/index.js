@@ -3,7 +3,7 @@ import ControllerField from 'components/controllerField'
 import Input from 'components/input'
 import Avatar from 'components/avatar'
 import Typography from 'components/typography'
-import { getFormatedNumber } from 'utils/normalizeData'
+import { getDevice, getFormatedNumber } from 'utils/normalizeData'
 import styles from './publisherCard.module.css'
 import CloseIcon from '@mui/icons-material/Close'
 import PercentIcon from '@mui/icons-material/Percent'
@@ -35,7 +35,7 @@ const PublisherCard = ({
       <div className={styles.information}>
         <div className={styles.row}>
           <Typography fontWeight='bold' fontSize='14px'>Dispositivo:</Typography>
-          <Typography>{device}</Typography>
+          <Typography>{getDevice(device)}</Typography>
         </div>
         <div className={styles.row}>
           <Typography fontWeight='bold' fontSize='14px'>Meta objetivo:</Typography>

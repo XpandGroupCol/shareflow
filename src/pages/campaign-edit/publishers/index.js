@@ -1,4 +1,5 @@
 import PublisherForm from 'components/campaigns/publishers'
+import LoadingPage from 'components/loadingPage'
 import { MAX_SHARE_VALUE } from 'configs'
 import { useNotify } from 'hooks/useNotify'
 
@@ -10,7 +11,7 @@ import { getFormatedNumber } from 'utils/normalizeData'
 import { clearCampaign, getSummaryInformation, getTotalShare, getValidateMinBudget } from 'utils/publishersFormat'
 
 const PublishersEditPage = () => {
-  const { globalCampaign, updateCampaign } = useEditGlobalCampaigns()
+  const { globalCampaign, updateCampaign, loading } = useEditGlobalCampaigns()
 
   const { mutateAsync, isLoading } = useMutation(setCampaign)
 
@@ -59,7 +60,9 @@ const PublishersEditPage = () => {
     updateCampaign(prev => ({ ...prev, publishers, rows }))
   }
 
-  if (globalCampaign.listOffPublishers.length === 0) {
+  if (loading) return <LoadingPage text='Buscando campaña ...' />
+
+  if (!globalCampaign?.listOffPublishers?.length) {
     return <Navigate to={`/campaigns/${globalCampaign?._id}/edit`} />
   }
 
