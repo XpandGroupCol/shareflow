@@ -38,7 +38,7 @@ const DrawerItems = ({ onClose }) => (
       <NavItemLink
         to='/activity'
         icon={AppRegistrationIcon}
-        text='Activity'
+        text='Actividad'
         onClose={onClose}
         end
       />
