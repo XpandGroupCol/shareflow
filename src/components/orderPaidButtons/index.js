@@ -13,7 +13,7 @@ import { useMutation } from 'react-query'
 import PaymentIcon from '@mui/icons-material/Payment'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import styles from './orderPaidButtons.module.css'
-import { getUserInitValues } from 'utils/normalizeData'
+import { getTotal, getUserInitValues } from 'utils/normalizeData'
 import { GLOBAL_ERROR } from 'configs'
 
 const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
@@ -55,8 +55,10 @@ const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
       return setShowProfileModal(true)
     }
 
+    const { total } = getTotal(campaign?.amount)
+
     const checkout = wompi({
-      amountInCents: `${campaign.amount}00`,
+      amountInCents: `${total}00`,
       email: user?.email,
       fullName: `${user?.name} ${user?.lastName}`,
       phoneNumber: phone,

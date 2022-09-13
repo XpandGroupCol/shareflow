@@ -5,7 +5,7 @@ import List from '@mui/material/List'
 
 import Toolbar from '@mui/material/Toolbar'
 
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
+// import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
 
 import { LogoIcon } from 'assets/icons'
 
@@ -35,13 +35,13 @@ const DrawerItems = ({ onClose }) => (
         text='Nueva campaña'
         onClose={onClose}
       />
-      <NavItemLink
+      {/* <NavItemLink
         to='/activity'
         icon={AppRegistrationIcon}
         text='Actividad'
         onClose={onClose}
         end
-      />
+      /> */}
 
     </List>
   </div>

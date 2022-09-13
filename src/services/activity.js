@@ -1,8 +1,8 @@
 import { axiosFetcher } from './fetcher'
 
-export const getActivity = async (page) => {
+export const getActivity = async (page, user) => {
   try {
-    const { data } = await axiosFetcher(`/activity?page=${page}`,
+    const { data } = await axiosFetcher(`/activity?page=${page}&createBy=${user}`,
       { method: 'GET' }
     )
     return data

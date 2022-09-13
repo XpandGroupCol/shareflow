@@ -1,9 +1,14 @@
 import ActivityCard from 'components/activityCard'
 import Button from 'components/button'
 import Typography from 'components/typography'
+import { useGetActivity } from 'hooks/useGetActivity'
 import styles from './activity.module.css'
 
 const ActivityPage = () => {
+  const { data, isLoading, isError, isFetching } = useGetActivity()
+
+  console.log({ data, isLoading, isError, isFetching })
+
   return (
     <>
       <section className='headerSection'>
