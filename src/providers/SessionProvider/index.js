@@ -44,8 +44,8 @@ const SessionProvider = ({ children }) => {
     setSession(prev => ({ ...prev, user }))
   }, [])
 
-  const setUSerSession = useCallback(({ role, name, avatar, email }) => {
-    const user = { role, name, avatar, email }
+  const setUSerSession = useCallback(({ role, name, avatar, email, id }) => {
+    const user = { role, name, avatar, email, id }
     Storage.setSecure(SESSION_DATA, user)
     setSession(prev => ({ ...prev, user }))
   }, [])

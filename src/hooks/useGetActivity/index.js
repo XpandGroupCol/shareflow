@@ -8,7 +8,6 @@ export const useGetActivity = () => {
   const [page, setPage] = useState(1)
 
   const { user } = useSession()
-  console.log(user?.id)
   const {
     isLoading,
     isError,
@@ -16,14 +15,18 @@ export const useGetActivity = () => {
     isFetching,
     isPreviousData
   } = useQuery([ACTIVITY, page], () => getActivity(page, user?.id), {
-    cacheTime: 2000,
+    staleTime: 5000,
     keepPreviousData: true
   })
 
-  const handleSetPage = useCallback(() => {
-    if (page === data?.data?.page) return
+  const handleNextPage = useCallback(() => {
+    if (page === data?.pages) return
     setPage(prev => prev + 1)
   }, [page, data])
+
+  const handlePrevPage = useCallback(() => {
+    setPage(prev => prev - 1)
+  }, [])
 
   return {
     isError,
@@ -32,6 +35,8 @@ export const useGetActivity = () => {
     page,
     isFetching,
     isPreviousData,
-    setPage: handleSetPage
+    getMore: handleNextPage,
+    noMore: page === data?.pages,
+    getPrevius: handlePrevPage
   }
 }

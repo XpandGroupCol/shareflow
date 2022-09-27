@@ -19,8 +19,6 @@ const MediaForm = ({ campaign }) => {
   const navigate = useNavigate()
   const notify = useNotify()
 
-  console.log({ campaign })
-
   const queryClient = useQueryClient()
   const { isLoading: loading, mutateAsync } = useMutate(updateCampaign)
 

@@ -64,7 +64,7 @@ const ProfileForm = ({ user }) => {
     }
     try {
       const { data } = await mutateAsync(payload)
-      setUSerSession(data)
+      setUSerSession({ ...data, id: data?._id })
       notify.success('El usuario se ha modificado exitosamente')
     } catch (e) {
       notify.error(GLOBAL_ERROR)
@@ -78,7 +78,7 @@ const ProfileForm = ({ user }) => {
       const { data } = await changeAvatar({ payload, id: user?._id })
 
       if (!data) return notify.error(GLOBAL_ERROR)
-      setUSerSession({ ...user, avatar: data })
+      setUSerSession({ ...user, id: user?._id, avatar: data })
       setAvatar(data)
       notify.success('La imagen se ha cambiado correctamente')
     } catch (e) {
@@ -91,7 +91,7 @@ const ProfileForm = ({ user }) => {
       const payload = { name: user?.avatar?.name || '' }
       const { data } = await changeAvatar({ payload, id: user?._id })
       if (!data) return notify.error(GLOBAL_ERROR)
-      setUSerSession({ ...user, avatar: data })
+      setUSerSession({ ...user, id: user?._id, avatar: data })
       setAvatar({ url: '', name: '' })
       notify.success('La imagen se ha cambiado correctamente')
     } catch (e) {

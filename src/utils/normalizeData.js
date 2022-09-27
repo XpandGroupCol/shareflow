@@ -1,6 +1,10 @@
 import { IVA } from 'configs'
 import { DEVICE, SEX_LIST } from 'configs/lists'
 import { format } from 'date-fns'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+
+dayjs.extend(utc)
 
 export const getAges = (ageRange = []) => {
   return ageRange.map(({ name }) => name).join(' / ')
@@ -11,8 +15,6 @@ export const getSex = (sex) => {
 }
 
 export const getFormatedNumber = (number) => number ? number?.toLocaleString() : number
-
-export const parseDate = (date) => date ? format(new Date(date), 'dd/MM/yyyy') : ''
 
 export const normalizeCampaign = ({ startDate, endDate, publishers, ...rest }) => ({
   ...rest,
@@ -38,6 +40,10 @@ export const getTotal = (amount) => {
     total: iva + amount
   }
 }
+
+export const parseDate = (date) => date ? format(new Date(date), 'dd/MM/yyyy') : ''
+
+export const parseUTCDate = (date, dateFormat = 'DD/MM/YYYY') => date ? dayjs(new Date(date)).utc().local().format(dateFormat) : ''
 
 export const getUserInitValues = ({
   address,

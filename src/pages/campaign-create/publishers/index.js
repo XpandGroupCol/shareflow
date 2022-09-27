@@ -39,7 +39,6 @@ const PublishersPage = () => {
     }
 
     try {
-      console.log('llega aqui')
       const { data } = await mutateAsync(createPayload({ ...values, logo: globalCampaign?.logo }))
       notify.success('Su campaña ha sido creada correctamente.')
       setCampaign(prev => ({ ...prev, publishers: data?.publishers ?? [], _id: data?._id }))

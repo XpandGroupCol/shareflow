@@ -55,7 +55,6 @@ export const verifySession = async () => {
 }
 
 export const setLogin = (user) => {
-  console.log({ user })
   const { role, name, avatar, email, refreshToken: token, id } = user
   updateToken(user)
   Storage.set(REACT_REFRESH_TOKEN, token)

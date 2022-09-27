@@ -5,7 +5,7 @@ import List from '@mui/material/List'
 
 import Toolbar from '@mui/material/Toolbar'
 
-// import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
 
 import { LogoIcon } from 'assets/icons'
 
@@ -14,7 +14,6 @@ import AddIcon from '@mui/icons-material/Add'
 import CampaignIcon from '@mui/icons-material/Campaign'
 
 const DrawerItems = ({ onClose }) => (
-
   <div>
     <Toolbar sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <LogoIcon width={150} fill='white' />
@@ -35,14 +34,13 @@ const DrawerItems = ({ onClose }) => (
         text='Nueva campaña'
         onClose={onClose}
       />
-      {/* <NavItemLink
+      <NavItemLink
         to='/activity'
         icon={AppRegistrationIcon}
         text='Actividad'
         onClose={onClose}
         end
-      /> */}
-
+      />
     </List>
   </div>
 )
