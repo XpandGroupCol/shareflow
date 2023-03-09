@@ -1,4 +1,4 @@
-import { Route, Routes, BrowserRouter } from 'react-router-dom'
+import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom'
 
 import PublicRoute from 'routes/PublicRoute'
 import PrivateRoute from 'routes/PrivateRoute'
@@ -9,7 +9,6 @@ import RecoveryPasswordPage from 'pages/recovery-password'
 import NotFoundPage from 'pages/not-found'
 import CampaignPage from 'pages/campaigns'
 import ProfilePage from 'pages/profile'
-import WebPage from 'pages/web'
 import ActivityPage from 'pages/activity'
 import CreatePage from 'pages/campaign-create'
 import PublishersPage from 'pages/campaign-create/publishers'
@@ -60,11 +59,7 @@ const Router = () => (
       />
       <Route
         path='/'
-        element={
-          <PublicRoute>
-            <WebPage />
-          </PublicRoute>
-        }
+        element={<Navigate to='campaigns' replace />}
       />
 
       <Route
