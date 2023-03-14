@@ -124,7 +124,7 @@ const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
         : (
           <Button onClick={handlePay} disabled={disabled || leavePage} variant='contained'>
             <PaymentIcon sx={{ marginRight: '10px' }} />
-            Pago con wompi
+            PAGAR AHORA
           </Button>)}
       <UpdateCompanyProfileModal
         showButton={() => setShowLeavePage(true)}
