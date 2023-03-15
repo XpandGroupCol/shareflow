@@ -23,7 +23,7 @@ const DrawerItems = ({ onClose }) => (
       <NavItemLink
         to='/campaigns'
         icon={CampaignIcon}
-        text='Camapañas'
+        text='Campañas'
         onClose={onClose}
         end
       />
