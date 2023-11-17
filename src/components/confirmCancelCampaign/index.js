@@ -18,10 +18,10 @@ const ConfirmCancelCampaign = ({ open, onClose, onSubmit, loading }) => {
       <DialogTitle fontWeight='bold'>Cancelar orden</DialogTitle>
       <Divider />
       <DialogContent sx={{ margin: '30px 0' }}>
-        <Typography textAlign='center'>Estas seguro que desear cancelar la orden?</Typography>
+        <Typography textAlign='center'>¿Estas seguro que desear cancelar la orden?</Typography>
       </DialogContent>
       <DialogActions>
-        <Button type='button' onClick={onClose} variant='outlined' color='secondary'>Cancelar</Button>
+        <Button type='button' onClick={onClose} variant='outlined' color='third'>Cancelar</Button>
         <Button loading={loading} onClick={onSubmit} variant='outlined'>Confimar</Button>
       </DialogActions>
     </Dialog>
