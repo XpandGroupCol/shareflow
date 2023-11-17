@@ -9,6 +9,11 @@ export const theme = createTheme({
       main: '#ed6e27',
       contrastText: '#fff'
     },
+    third: {
+      main: '#f0034a',
+      contrastText: '#fff'
+
+    },
     success: {
       main: '#4caf50'
     },
