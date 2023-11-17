@@ -113,7 +113,7 @@ const OrderPaidButtons = ({ campaign = {}, setCampaignState }) => {
           Salir
         </Button>
       </Link>
-      <Button disabled={leavePage} onClick={handleOpenModal} variant='contained' color='secondary'>
+      <Button disabled={leavePage} onClick={handleOpenModal} variant='contained' color='third'>
         Cancelar orden
       </Button>
       {user?.hasCredit
