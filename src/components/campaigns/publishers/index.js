@@ -149,7 +149,7 @@ const PublisherForm = ({ initValues, onBack, onSubmit, href, loading }) => {
                 id='combo-box-demo'
                 options={initValues?.listOffPublishers || []}
                 fullWidth
-                label='Artemisa gaticaaaaaaaaaaaaaaa'
+                label='Selecciona tus Medios'
                 multiple
                 size='smaill'
                 groupBy={(option) => option.groupBy}
