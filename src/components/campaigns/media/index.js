@@ -84,7 +84,7 @@ const MediaForm = ({ campaign }) => {
       </section>
 
       <Button onClick={onSubmit} loading={loading} disabled={disabledButton}>
-        Agregar archivos
+        Siguiente
       </Button>
     </section>
   )
