@@ -146,7 +146,7 @@ const CampaignForm = ({ onSubmit, initValues, loading, ages = [], targets = [], 
 
         <ControllerField
           name='sex'
-          label='Sexo'
+          label='Género '
           control={control}
           element={Select}
           options={SEX_LIST}
