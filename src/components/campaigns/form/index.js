@@ -18,11 +18,9 @@ import { getFormatedNumber } from 'utils/normalizeData'
 import { SEX_LIST } from 'configs/lists'
 import Select from 'components/select'
 import AutocompleteLocations from 'components/autocompleteLocations'
-import { useNotify } from 'hooks/useNotify'
 
 const CampaignForm = ({ onSubmit, initValues, loading, ages = [], targets = [], sectors = [] }) => {
   const currencyRef = useRef(null)
-  const notify = useNotify()
   // se  destructura el useform y se le asigna a una propeidad de useforma el schema para
   // validar datos con libreria yup y se hace en schema.
   const { formState: { errors }, handleSubmit, control, getValues, setValue, setError, clearErrors } = useForm({
@@ -40,7 +38,6 @@ const CampaignForm = ({ onSubmit, initValues, loading, ages = [], targets = [], 
     // se comprueba si existe una fecha final en los campos
     // si existe y la fecha final esta antes de la inicial
     // si fF es > fI es true(isBefore) (pongo FF y FI)
-    notify.info('La campaña comenzará mínimo 5 días después de la fecha actual')
     if (values.endDate && isBefore(values.endDate, date)) {
       setValue('endDate', null, { shouldValidate: true })
     }
