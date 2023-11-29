@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import isBefore from 'date-fns/isBefore'
-
+import { calculateMinDate } from 'utils/startDate'
 import { Box, Divider } from '@mui/material'
 import Input from 'components/input'
 import CurrencyInput from 'components/currencyInput'
@@ -11,7 +11,6 @@ import DatePicker from 'components/datePicker'
 import Button from 'components/button'
 import Typography from 'components/typography'
 import ControllerField from 'components/controllerField'
-
 import { schema } from './schema'
 import { MIN_INVESTMENT } from 'configs'
 import styles from './campaignForm.module.css'
@@ -19,24 +18,36 @@ import { getFormatedNumber } from 'utils/normalizeData'
 import { SEX_LIST } from 'configs/lists'
 import Select from 'components/select'
 import AutocompleteLocations from 'components/autocompleteLocations'
+import { useNotify } from 'hooks/useNotify'
 
 const CampaignForm = ({ onSubmit, initValues, loading, ages = [], targets = [], sectors = [] }) => {
   const currencyRef = useRef(null)
-
+  const notify = useNotify()
+  // se  destructura el useform y se le asigna a una propeidad de useforma el schema para
+  // validar datos con libreria yup y se hace en schema.
   const { formState: { errors }, handleSubmit, control, getValues, setValue, setError, clearErrors } = useForm({
-    defaultValues: { ...initValues },
+    defaultValues: {
+      ...initValues,
+      startDate: calculateMinDate() // Sobrescribe startDate con la fecha calculada
+    },
     resolver: yupResolver(schema)
   })
+  console.log(initValues, 'esto es el error')
 
   const values = getValues()
-
+  // se crea un evento para cinfigurar la fecha inicial y final
   const handleChangeStartDate = (date) => {
+    // se comprueba si existe una fecha final en los campos
+    // si existe y la fecha final esta antes de la inicial
+    // si fF es > fI es true(isBefore) (pongo FF y FI)
+    notify.info('La campaña comenzará mínimo 5 días después de la fecha actual')
     if (values.endDate && isBefore(values.endDate, date)) {
       setValue('endDate', null, { shouldValidate: true })
     }
     setValue('startDate', date)
   }
-
+  // funciòn para calcualr la fecha minima despues de 5 dias
+  console.log(values.endDate, 'soy fecha final')
   const handleValidateMinInvestment = ({ target }) => {
     const { value } = target
 
@@ -80,7 +91,7 @@ const CampaignForm = ({ onSubmit, initValues, loading, ages = [], targets = [], 
           label='Fecha Inicio'
           control={control}
           element={DatePicker}
-          minDate={new Date()}
+          minDate={calculateMinDate()}
           size='normal'
           error={Boolean(errors?.startDate?.message)}
           helperText={errors?.startDate?.message}
